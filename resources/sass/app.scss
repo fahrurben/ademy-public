@@ -48,5 +48,24 @@
 
   .main-wrapper {
     flex: 1;
+    background-color: #F3F4EF;
   }
+}
+
+.page-header {
+  height: 65px;
+  border: 2px #EEEDE9 solid;
+  padding: 0px 20px;
+
+  .page-title {
+    height: 65px;
+    line-height: 65px;
+    color: #939290;
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.page-wrapper {
+  padding: 20px;
 }

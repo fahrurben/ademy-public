@@ -48,7 +48,12 @@
         </ul>
     </div>
     <div class="main-wrapper">
-        @yield('content')
+        <div class="page-header">
+            <h3 class="page-title">@yield('title')</h3>
+        </div>
+        <div class="container-fluid page-wrapper">
+            @yield('content')
+        </div>
     </div>
 </div>
 <!-- End of app -->
