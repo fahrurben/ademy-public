@@ -1,1 +1,52 @@
-//
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.root-wrapper {
+  display: flex;
+  min-height: 100vh;
+
+  .main-nav-column {
+    background-color: #3E64FF;
+    flex: 0 0 90px;
+  }
+
+  .main-nav {
+    li {
+      border-bottom: 1px #5373FE solid;
+
+      a {
+        display: flex;
+        color: #F9F7FF;
+        justify-content: center;
+        flex-wrap: wrap;
+        font-size: 14px;
+
+        &.nav-link {
+          padding: 0.5rem;
+        }
+
+        i {
+          flex: 0 0 100%;
+          text-align:center;
+          height: 26px;
+          padding-top: 8px;
+        }
+
+        span {
+          flex: 0 0 100%;
+          text-align: center;
+          word-break: break-all;
+        }
+      }
+    }
+
+  }
+
+  .main-wrapper {
+    flex: 1;
+  }
+}
