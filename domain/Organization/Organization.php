@@ -11,6 +11,7 @@ namespace Domain\Organization;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 use Domain\AuditableEntity;
+use Domain\Security\User;
 
 /**
  * @ORM\Entity
@@ -38,10 +39,9 @@ class Organization
     protected $subdomain;
 
     /**
-     * @OneToMany(targetEntity="\domain\Security\User", mappedBy="organization")
+     * @ORM\OneToMany(targetEntity="Domain\Security\User", mappedBy="organization")
      */
-    private $users;
-
+    protected $users;
 
     public function __construct()
     {
@@ -94,6 +94,14 @@ class Organization
     public function setSubdomain($subdomain): void
     {
         $this->subdomain = $subdomain;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 
 }

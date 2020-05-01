@@ -10,6 +10,8 @@ namespace Domain\Security;
 
 use Doctrine\ORM\Mapping AS ORM;
 use Domain\AuditableEntity;
+use Domain\Organization\Organization;
+use Domain\SoftDeleteEntity;
 
 
 /**
@@ -18,7 +20,7 @@ use Domain\AuditableEntity;
  */
 class User implements \Illuminate\Contracts\Auth\Authenticatable
 {
-    use AuditableEntity;
+    use AuditableEntity, SoftDeleteEntity;
 
     /**
      * @ORM\Id
@@ -38,8 +40,8 @@ class User implements \Illuminate\Contracts\Auth\Authenticatable
     protected $email;
 
     /**
-     * @ManyToOne(targetEntity="\domain\Organization\Organization", inversedBy="users")
-     * @JoinColumn(name="organization_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="\Domain\Organization\Organization")
+     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id")
      */
     protected $organization;
 
@@ -197,5 +199,23 @@ class User implements \Illuminate\Contracts\Auth\Authenticatable
     {
         return $this->rememberToken;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getOrganization(): Organization
+    {
+        return $this->organization;
+    }
+
+    /**
+     * @param mixed $organization
+     */
+    public function setOrganization(Organization $organization): void
+    {
+        $this->organization = $organization;
+    }
+
+
 }
 

@@ -13,6 +13,3 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
-
-// Todo: Add environment checking for production
-mix.setResourceRoot('/ademy/public/');
