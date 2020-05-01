@@ -9,13 +9,14 @@
 namespace App\Http\Controllers;
 
 
+use Domain\Organization\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AuthenticationController extends Controller
 {
-    public function login(Request $request)
+    public function login($subdomain, Request $request)
     {
         if ($request->isMethod('get')) {
             Auth::logout();
@@ -30,7 +31,12 @@ class AuthenticationController extends Controller
             ];
             $validator = Validator::make($request->all(), $rules);
 
-            if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            if (Auth::attempt(
+                [
+                    'email' => $email,
+                    'password' => $password,
+                    // Todo: Add subdomain and active validation
+                ])) {
                 return redirect()->route('home');
             }
 

@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
-Route::post('/', 'HomeController@index')->name('home');
-Route::get('/login', 'AuthenticationController@login')->name('login');
-Route::post('/login', 'AuthenticationController@login')->name('login');
+Route::domain('{subdomain}.local.ademy.com')->middleware('subdomain')->group(function () {
+    Route::get('/login', 'AuthenticationController@login')->name('login');
+    Route::post('/login', 'AuthenticationController@login')->name('login');
+
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::post('/', 'HomeController@index')->name('home');
+});

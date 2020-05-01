@@ -38,6 +38,12 @@ class User implements \Illuminate\Contracts\Auth\Authenticatable
     protected $email;
 
     /**
+     * @ManyToOne(targetEntity="\domain\Organization\Organization", inversedBy="users")
+     * @JoinColumn(name="organization_id", referencedColumnName="id")
+     */
+    protected $organization;
+
+    /**
      * @ORM\Column(name="email_verified_at", type="datetime")
      */
     protected $emailVerifiedAt;
