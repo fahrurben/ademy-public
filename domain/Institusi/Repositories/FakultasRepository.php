@@ -13,5 +13,11 @@ use Doctrine\ORM\EntityRepository;
 
 class FakultasRepository extends EntityRepository
 {
+    public function getFakultas($organization_id)
+    {
+        $dql = "SELECT f FROM Domain\Institusi\Fakultas f ORDER BY f.nama DESC";
 
+        $query = $this->getEntityManager()->createQuery($dql);
+        return $query->getResult();
+    }
 }

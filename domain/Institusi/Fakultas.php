@@ -14,7 +14,7 @@ use Domain\AuditableEntity;
 use Domain\SoftDeleteEntity;
 
 /**
- * @ORM\Entity(repositoryClass="\Domain\Organization\Organization")
+ * @ORM\Entity(repositoryClass="\Domain\Institusi\Repositories\FakultasRepository")
  * @ORM\Table(name="fakultas")
  */
 class Fakultas
@@ -31,7 +31,7 @@ class Fakultas
     /**
      * @ORM\Column(type="string")
      */
-    protected $name;
+    protected $nama;
 
     /**
      * @ORM\Column(type="string")
@@ -67,17 +67,17 @@ class Fakultas
     /**
      * @return mixed
      */
-    public function getName()
+    public function getNama()
     {
-        return $this->name;
+        return $this->nama;
     }
 
     /**
-     * @param mixed $name
+     * @param mixed $nama
      */
-    public function setName($name): void
+    public function setNama($nama): void
     {
-        $this->name = $name;
+        $this->nama = $nama;
     }
 
     /**

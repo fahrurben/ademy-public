@@ -16,7 +16,7 @@ class CreateFakultasTable extends Migration
         Schema::create('fakultas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('organization_id');
-            $table->string('name')->unique();
+            $table->string('nama')->unique();
             $table->string('kode')->unique();
             $table->timestamps();
             $table->unsignedBigInteger('created_by')->nullable();

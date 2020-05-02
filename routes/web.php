@@ -19,4 +19,8 @@ Route::domain('{subdomain}.local.ademy.com')->middleware('subdomain')->group(fun
 
     Route::get('/', 'HomeController@index')->name('home');
     Route::post('/', 'HomeController@index')->name('home');
+
+    Route::get('/fakultas', 'Institusi\FakultasController@index')->name('fakultas');
+    Route::get('/fakultas/create', 'Institusi\FakultasController@create')->name('fakultas.create');
+    Route::post('/fakultas/create', 'Institusi\FakultasController@create')->name('fakultas.create');
 });
