@@ -24,8 +24,10 @@ Route::domain('{subdomain}.local.ademy.com')->middleware('subdomain')->group(fun
     Route::get('/fakultas/create', 'Institusi\FakultasController@create')->name('fakultas.create');
     Route::post('/fakultas/create', 'Institusi\FakultasController@create')->name('fakultas.create');
     Route::get('/fakultas/update/{id}', 'Institusi\FakultasController@update')->name('fakultas.update');
-    Route::get('/fakultas/update/{id}', 'Institusi\FakultasController@update')->name('fakultas.update');
+    Route::post('/fakultas/update/{id}', 'Institusi\FakultasController@update')->name('fakultas.update');
     Route::get('/fakultas/delete/{id}', 'Institusi\FakultasController@delete')->name('fakultas.delete');
     Route::get('/fakultas/view/{id}', 'Institusi\FakultasController@view')->name('fakultas.view');
     Route::post('/fakultas/view/{id}', 'Institusi\FakultasController@view')->name('fakultas.view');
+
+    Route::get('/prodi', 'Institusi\ProdiController@index')->name('prodi');
 });
