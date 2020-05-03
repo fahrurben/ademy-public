@@ -25,7 +25,7 @@ trait AuditableEntity
     /**
      * @return datetime
      */
-    public function getCreatedAt(): datetime
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
@@ -33,7 +33,7 @@ trait AuditableEntity
     /**
      * @param datetime $createdAt
      */
-    public function setCreatedAt(datetime $createdAt): void
+    public function setCreatedAt($createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -41,7 +41,7 @@ trait AuditableEntity
     /**
      * @return datetime
      */
-    public function getUpdatedAt(): datetime
+    public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
@@ -49,7 +49,7 @@ trait AuditableEntity
     /**
      * @param datetime $updatedAt
      */
-    public function setUpdatedAt(datetime $updatedAt): void
+    public function setUpdatedAt($updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }

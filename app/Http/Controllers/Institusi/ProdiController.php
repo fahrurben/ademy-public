@@ -54,6 +54,20 @@ class ProdiController extends Controller
                     new IdFieldConfig(),
                     GridColumnHelper::generateViewColumn('kode', 'Kode', FilterConfig::OPERATOR_LIKE),
                     GridColumnHelper::generateViewColumn('nama', 'Nama', FilterConfig::OPERATOR_LIKE),
+                    (new FieldConfig)
+                        ->setName('fakultas_id')
+                        ->setLabel('Fakultas')
+                        ->addFilter(
+                            (new FilterConfig)
+                                ->setName('fakultas_id')
+                                ->setOperator(FilterConfig::OPERATOR_EQ)
+                        )
+                        ->setCallback(function ($val, ObjectDataRow $row) {
+                            $fakultas = $this->fakultasRepository->find($val);
+                            return $fakultas->getNama();
+                        })
+                        ->setSortable(true)
+                    ,
                     (new FieldConfig())
                         ->setName('id')
                         ->setLabel('Action')
@@ -110,6 +124,13 @@ class ProdiController extends Controller
                 );
             }
         }
+    }
+
+    public function view($subdomain, $id, Request $request)
+    {
+        $prodi = $this->prodiRepository->findOneBy(['id' => $id]);
+
+        return view('page.intitusi.prodi.view', compact('prodi'));
     }
 
     public function update($subdomain, $id, Request $request)
