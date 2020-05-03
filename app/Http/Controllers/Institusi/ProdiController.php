@@ -54,6 +54,17 @@ class ProdiController extends Controller
                     new IdFieldConfig(),
                     GridColumnHelper::generateViewColumn('kode', 'Kode', FilterConfig::OPERATOR_LIKE),
                     GridColumnHelper::generateViewColumn('nama', 'Nama', FilterConfig::OPERATOR_LIKE),
+                    (new FieldConfig())
+                        ->setName('id')
+                        ->setLabel('Action')
+                        ->setCallback(function ($val, ObjectDataRow $row) {
+                            if ($val) {
+                                $buttons = '<a href="'.route('prodi.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
+                                $buttons .=' <a href="'.route('prodi.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
+                                $buttons .=' <a href="'.route('prodi.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
+                                return $buttons;
+                            }
+                        }),
                 ])
         );
 
@@ -83,6 +94,48 @@ class ProdiController extends Controller
                     $fakultas = $this->fakultasRepository->find($fakultas_id);
 
                     $prodi = new Prodi();
+                    $prodi->setNama($nama);
+                    $prodi->setKode($kode);
+                    $prodi->setFakultas($fakultas);
+
+                    $this->prodiService->create($prodi);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        ['message' => $e->getMessage()], 500
+                    );
+                }
+
+                return response()->json(
+                    ['success' => true]
+                );
+            }
+        }
+    }
+
+    public function update($subdomain, $id, Request $request)
+    {
+        $arrFakultasObj = $this->fakultasRepository->getAllFakultas();
+        $arrFakultas = FormHelper::arrayObjToOptionArray($arrFakultasObj, __('- Pilih Fakultas -'));
+
+        $prodi = $this->prodiRepository->find($id);
+
+        if ($request->isMethod('get')) {
+            return view('page.intitusi.prodi.update', compact('arrFakultas', 'prodi'));
+        } else {
+            $fakultas_id = $request->get('fakultas_id');
+            $nama = $request->get('nama');
+            $kode = $request->get('kode');
+
+            $validator = $this->prodiService->createValidation($request->all());
+
+            if ($validator->fails()) {
+                return response()->json(
+                    $validator->messages(), 500
+                );
+            } else {
+                try {
+                    $fakultas = $this->fakultasRepository->find($fakultas_id);
+
                     $prodi->setNama($nama);
                     $prodi->setKode($kode);
                     $prodi->setFakultas($fakultas);

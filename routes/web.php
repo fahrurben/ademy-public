@@ -32,4 +32,9 @@ Route::domain('{subdomain}.local.ademy.com')->middleware('subdomain')->group(fun
     Route::get('/prodi', 'Institusi\ProdiController@index')->name('prodi');
     Route::get('/prodi/create', 'Institusi\ProdiController@create')->name('prodi.create');
     Route::post('/prodi/create', 'Institusi\ProdiController@create')->name('prodi.create');
+    Route::get('/prodi/update/{id}', 'Institusi\ProdiController@update')->name('prodi.update');
+    Route::post('/prodi/update/{id}', 'Institusi\ProdiController@update')->name('prodi.update');
+    Route::get('/prodi/delete/{id}', 'Institusi\ProdiController@delete')->name('prodi.delete');
+    Route::get('/prodi/view/{id}', 'Institusi\ProdiController@view')->name('prodi.view');
+    Route::post('/prodi/view/{id}', 'Institusi\ProdiController@view')->name('prodi.view');
 });
