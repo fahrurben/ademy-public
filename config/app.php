@@ -180,6 +180,8 @@ return [
          */
         App\Providers\CustomFormInputProvider::class,
         Nayjest\Grids\ServiceProvider::class,
+        LaravelDoctrine\Extensions\GedmoExtensionsServiceProvider::class,
+        LaravelDoctrine\Extensions\BeberleiExtensionsServiceProvider::class,
 
     ],
 

@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "beberlei/doctrineextensions": "1.2.6",
+        "beberlei/doctrineextensions": "^1.0",
         "fideloper/proxy": "^4.0",
         "gedmo/doctrine-extensions": "^2.4",
         "laravel-doctrine/extensions": "1.1.1",

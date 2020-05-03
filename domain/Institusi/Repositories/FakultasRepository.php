@@ -20,6 +20,7 @@ class FakultasRepository extends EntityRepository
         $query->select('id', 'nama', 'kode', 'organization_id')
             ->from('fakultas')
             ->where('fakultas.organization_id = ?')
+            ->andWhere('fakultas.deleted_at is NULL')
             ->setParameter(0, $organizationId);
 
         return $query;

@@ -8,7 +8,7 @@
 
 namespace Domain\Institusi;
 
-use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Mapping\Annotation\SoftDeleteable;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\AuditableEntity;
 use Domain\SoftDeleteEntity;
@@ -16,6 +16,7 @@ use Domain\SoftDeleteEntity;
 /**
  * @ORM\Entity(repositoryClass="\Domain\Institusi\Repositories\FakultasRepository")
  * @ORM\Table(name="fakultas")
+ * @SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
 class Fakultas
 {
