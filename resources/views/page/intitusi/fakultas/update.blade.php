@@ -3,15 +3,11 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            @php
-                $name = old('nama');
-                $kode = old('kode');
-            @endphp
-            {{ Form::open(['url' => route('fakultas.create'), 'class' => 'ajax-form']) }}
-            {{ Form::textInput('nama', old('nama'), 'Nama',
+            {{ Form::open(['url' => route('fakultas.update', ['id' => $fakultas->getId()]), 'class' => 'ajax-form']) }}
+            {{ Form::textInput('nama', isset($fakultas) ? $fakultas->getNama() : '', 'Nama',
                 ['required' => true], $errors->first('nama'))
             }}
-            {{ Form::textInput('kode', old('kode'), 'Kode',
+            {{ Form::textInput('kode', isset($fakultas) ? $fakultas->getKode() : '', 'Kode',
                 ['required' => true], $errors->first('kode'))
             }}
             <div class="row">

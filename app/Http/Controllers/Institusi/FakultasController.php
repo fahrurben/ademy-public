@@ -55,6 +55,7 @@ class FakultasController extends Controller
 
         $grid = new Grid(
             (new GridConfig())
+                ->setName('pageGrid')
                 ->setDataProvider(new DbalDataProvider($getFakultasQuery))
                 ->setColumns([
                     new IdFieldConfig(),
@@ -65,9 +66,9 @@ class FakultasController extends Controller
                         ->setLabel('Action')
                         ->setCallback(function ($val, ObjectDataRow $row) {
                             if ($val) {
-                                $buttons ='<a class="btn btn-xs btn-primary"><i class="far fa-file-alt"></i> View</a>';
-                                $buttons .=' <a class="btn btn-xs btn-primary"><i class="fas fa-edit"></i> Update</a>';
-                                $buttons .=' <a class="btn btn-xs btn-primary"><i class="fas fa-trash"></i> Delete</a>';
+                                $buttons ='<a href="'.route('fakultas.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
+                                $buttons .=' <a href="'.route('fakultas.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
+                                $buttons .=' <a href="'.route('fakultas.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
                                 return $buttons;
                             }
                         })
@@ -88,24 +89,83 @@ class FakultasController extends Controller
             $validator = $this->fakultasService->createValidation($request->all());
 
             if ($validator->fails()) {
-                return redirect('fakultas/create')
-                    ->withErrors($validator)
-                    ->withInput();
+                return response()->json(
+                    $validator->messages(), 500
+                );
             } else {
-                $organiztionId = $request->get('organizationId');
-                $organization = $this->organizationRepository->find($organiztionId);
+                try {
+                    $organizationId = $request->get('organizationId');
+                    $organization = $this->organizationRepository->find($organizationId);
 
-                $fakultas = new Fakultas();
-                $fakultas->setNama($nama);
-                $fakultas->setKode($kode);
-                $fakultas->setOrganization($organization);
+                    $fakultas = new Fakultas();
+                    $fakultas->setNama($nama);
+                    $fakultas->setKode($kode);
+                    $fakultas->setOrganization($organization);
 
-                $this->fakultasService->create($fakultas);
+                    $this->fakultasService->create($fakultas);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        ['message' => $e->getMessage()], 500
+                    );
+                }
 
-                return redirect('fakultas')
-                    ->with('success', __('Rekod berhasil disimpan'));
+                return response()->json(
+                    ['success' => true]
+                );
             }
         }
+    }
+
+    public function view($subdomain, $id, Request $request)
+    {
+        $fakultas = $this->fakultasRepository->find($id);
+
+        return view('page.intitusi.fakultas.view', compact('fakultas'));
+    }
+
+    public function update($subdomain, $id, Request $request)
+    {
+        $fakultas = $this->fakultasRepository->find($id);
+
+        if ($request->isMethod('get')) {
+            return view('page.intitusi.fakultas.update', ['fakultas' => $fakultas]);
+        } else {
+            try {
+                $nama = $request->get('nama');
+                $kode = $request->get('kode');
+
+                $validator = $this->fakultasService->createValidation($request->all());
+
+                $fakultas->setNama($nama);
+                $fakultas->setKode($kode);
+
+                $this->fakultasService->update($fakultas);
+            } catch (\Exception $e) {
+                return response()->json(
+                    ['message' => $e->getMessage()], 500
+                );
+            }
+
+            return response()->json(
+                ['success' => true]
+            );
+        }
+    }
+
+    public function delete($subdomain, $id, Request $request)
+    {
+        try {
+            $fakultas = $this->fakultasRepository->find($id);
+            $this->fakultasService->delete($id);
+        } catch (\Exception $e) {
+            return response()->json(
+                ['message' => $e->getMessage()], 500
+            );
+        }
+
+        return response()->json(
+            ['success' => true]
+        );
     }
 
 

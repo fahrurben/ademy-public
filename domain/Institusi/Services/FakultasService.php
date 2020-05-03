@@ -52,6 +52,7 @@ class FakultasService
         }
 
         $this->entityManager->remove($fakultas);
+        $this->entityManager->flush();
     }
 
     public function createValidation($requestData)

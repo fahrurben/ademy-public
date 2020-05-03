@@ -2,10 +2,12 @@
 
 @section('title')
     @lang('Fakultas')
-    <a href="{{ route('fakultas.create') }}" class="btn btn-primary btn-circle btn-sm">
+    <a href="{{ route('fakultas.create') }}" class="btn btn-primary btn-circle btn-sm showCreateModal">
         <i class="fas fa-plus"></i>
     </a>
 @endsection
 @section('content')
-    {!! $grid !!}
+    <div id="gridWrapper">
+        {!! $grid !!}
+    </div>
 @endsection

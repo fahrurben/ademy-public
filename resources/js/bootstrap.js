@@ -29,4 +29,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Popper = require('popper.js').default;
 window.$ = window.jQuery = require('jquery');
+window.toastr = require('toastr');
 require('bootstrap');
+require('jquery-pjax');
+window.bootbox = require('bootbox');

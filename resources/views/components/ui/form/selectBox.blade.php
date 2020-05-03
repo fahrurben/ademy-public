@@ -17,6 +17,6 @@
                 <option value="{{ $key }}" {{ $key == $value ? ' selected' : '' }}>{{ $option }}</option>
             @endforeach
         </select>
-        <div class="invalid-feedback"></div>
+        <div class="invalid-feedback text-danger"></div>
     </div>
 </div>
