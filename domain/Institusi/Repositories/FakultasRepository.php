@@ -9,15 +9,19 @@
 namespace Domain\Institusi\Repositories;
 
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 
 class FakultasRepository extends EntityRepository
 {
-    public function getFakultas($organization_id)
+    public function getFakultasGridQuery($organizationId)
     {
-        $dql = "SELECT f FROM Domain\Institusi\Fakultas f ORDER BY f.nama DESC";
+        $query = $this->getEntityManager()->getConnection()->createQueryBuilder();
+        $query->select('id', 'nama', 'kode', 'organization_id')
+            ->from('fakultas')
+            ->where('fakultas.organization_id = ?')
+            ->setParameter(0, $organizationId);
 
-        $query = $this->getEntityManager()->createQuery($dql);
-        return $query->getResult();
+        return $query;
     }
 }

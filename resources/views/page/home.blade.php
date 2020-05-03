@@ -5,14 +5,14 @@ Home
 @endsection
 @section('content')
     <div class="row">
-        <div class="col-12">
+        <div class="col-md-12">
             @guest
-            <div class="d-flex justify-content-center">
-                <div class="card" style="width: 500px;">
-                    <div class="card-header">
-                        <span class="card-title">Login</span>
+            <div class="login-wrapper d-flex flex-justify-center">
+                <div class="panel panel-default" style="width: 500px;">
+                    <div class="panel-heading">
+                        Login
                     </div>
-                    <div class="card-body">
+                    <div class="panel-body">
                         @php
                             $email = old('email');
                         @endphp
@@ -24,7 +24,7 @@ Home
                             ['required' => true, 'type' => 'password'], $errors->first('password'))
                         }}
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-md-12">
                                 <button type="submit" class="btn btn-primary float-right">Login</button>
                             </div>
                         </div>

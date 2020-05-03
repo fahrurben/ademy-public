@@ -179,6 +179,7 @@ return [
          * Custom Provider
          */
         App\Providers\CustomFormInputProvider::class,
+        Nayjest\Grids\ServiceProvider::class,
 
     ],
 

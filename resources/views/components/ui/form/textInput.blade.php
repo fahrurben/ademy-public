@@ -17,6 +17,6 @@
                placeholder="{{ Arr::get($attributes, 'placeholder', '') }}"
                value="{{ $value }}"
         >
-        <div class="invalid-feedback">{{ $error }}</div>
+        <div class="text-danger">{{ $error }}</div>
     </div>
 </div>

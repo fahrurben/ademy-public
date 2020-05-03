@@ -15,6 +15,20 @@ use Domain\Institusi\Fakultas;
 use Domain\Institusi\Services\FakultasService;
 use Domain\Organization\Organization;
 use Illuminate\Http\Request;
+use Nayjest\Grids\Components\ColumnsHider;
+use Nayjest\Grids\Components\FiltersRow;
+use Nayjest\Grids\Components\HtmlTag;
+use Nayjest\Grids\Components\OneCellRow;
+use Nayjest\Grids\Components\RecordsPerPage;
+use Nayjest\Grids\Components\THead;
+use Nayjest\Grids\DbalDataProvider;
+use Nayjest\Grids\FieldConfig;
+use Nayjest\Grids\FilterConfig;
+use Nayjest\Grids\Grid;
+use Nayjest\Grids\GridConfig;
+use Nayjest\Grids\IdFieldConfig;
+use Nayjest\Grids\ObjectDataRow;
+use App\Helper\GridColumnHelper;
 
 class FakultasController extends Controller
 {
@@ -37,9 +51,30 @@ class FakultasController extends Controller
     public function index($subdomain, Request $request)
     {
         $organiztionId = $request->get('organizationId');
-        $arrFakultas = $this->fakultasRepository->getFakultas($organiztionId);
+        $getFakultasQuery = $this->fakultasRepository->getFakultasGridQuery($organiztionId);
 
-        return view('page.intitusi.fakultas.index', compact('arrFakultas'));
+        $grid = new Grid(
+            (new GridConfig())
+                ->setDataProvider(new DbalDataProvider($getFakultasQuery))
+                ->setColumns([
+                    new IdFieldConfig(),
+                    GridColumnHelper::generateViewColumn('kode', 'Kode', FilterConfig::OPERATOR_LIKE),
+                    GridColumnHelper::generateViewColumn('nama', 'Nama', FilterConfig::OPERATOR_LIKE),
+                    (new FieldConfig())
+                        ->setName('id')
+                        ->setLabel('Action')
+                        ->setCallback(function ($val, ObjectDataRow $row) {
+                            if ($val) {
+                                $buttons ='<a class="btn btn-xs btn-primary"><i class="far fa-file-alt"></i> View</a>';
+                                $buttons .=' <a class="btn btn-xs btn-primary"><i class="fas fa-edit"></i> Update</a>';
+                                $buttons .=' <a class="btn btn-xs btn-primary"><i class="fas fa-trash"></i> Delete</a>';
+                                return $buttons;
+                            }
+                        })
+                ])
+        );
+
+        return view('page.intitusi.fakultas.index', compact('grid'));
     }
 
     public function create($subdomain, Request $request)

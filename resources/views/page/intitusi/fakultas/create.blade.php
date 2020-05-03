@@ -7,11 +7,11 @@
     <div class="row">
         <div class="col-12">
 
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-title">Create</span>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Create
                 </div>
-                <div class="card-body">
+                <div class="panel-body">
                     @php
                         $name = old('nama');
                         $kode = old('kode');
@@ -24,7 +24,7 @@
                         ['required' => true], $errors->first('kode'))
                     }}
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-md-12">
                             <button type="submit" class="btn btn-primary float-right">Submit</button>
                             <a href="{{ route('fakultas') }}" class="btn btn-light float-right mr-1">Cancel</a>
                         </div>
