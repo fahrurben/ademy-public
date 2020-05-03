@@ -12,6 +12,7 @@ namespace Domain\Institusi\Services;
 use Doctrine\ORM\EntityManager;
 use Domain\BaseService;
 use Domain\Institusi\Prodi;
+use Illuminate\Support\Facades\Validator;
 
 class ProdiService extends BaseService
 {
@@ -19,9 +20,10 @@ class ProdiService extends BaseService
 
     private $prodiRepository;
 
-    private $createValidationRules = [
+    protected $createValidationRules = [
         'nama' => 'required|unique:\Domain\Institusi\Prodi,nama,{$id},id,deletedAt,NULL',
         'kode' => 'required|unique:\Domain\Institusi\Prodi,kode,{$id},id,deletedAt,NULL',
+        'fakultas_id' => 'required',
     ];
 
     public function __construct(EntityManager $entityManager)
@@ -29,5 +31,10 @@ class ProdiService extends BaseService
         $this->entityManager = $entityManager;
         $this->prodiRepository = $entityManager->getRepository(Prodi::class);
         parent::__construct($entityManager, $this->prodiRepository);
+    }
+
+    public function createValidation($requestData)
+    {
+        return Validator::make($requestData, $this->createValidationRules);
     }
 }

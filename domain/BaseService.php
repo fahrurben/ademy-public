@@ -48,9 +48,4 @@ class BaseService
         $this->entityManager->remove($entity);
         $this->entityManager->flush();
     }
-
-    public function createValidation($requestData)
-    {
-        return Validator::make($requestData, $this->createValidationRules);
-    }
 }

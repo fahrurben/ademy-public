@@ -30,4 +30,6 @@ Route::domain('{subdomain}.local.ademy.com')->middleware('subdomain')->group(fun
     Route::post('/fakultas/view/{id}', 'Institusi\FakultasController@view')->name('fakultas.view');
 
     Route::get('/prodi', 'Institusi\ProdiController@index')->name('prodi');
+    Route::get('/prodi/create', 'Institusi\ProdiController@create')->name('prodi.create');
+    Route::post('/prodi/create', 'Institusi\ProdiController@create')->name('prodi.create');
 });

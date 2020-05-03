@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Institusi;
 
+use App\Helper\FormHelper;
 use App\Http\Controllers\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Institusi\Fakultas;
@@ -57,6 +58,47 @@ class ProdiController extends Controller
         );
 
         return view('page.intitusi.prodi.index', compact('grid'));
+    }
+
+    public function create($subdomain, Request $request)
+    {
+        $arrFakultasObj = $this->fakultasRepository->getAllFakultas();
+        $arrFakultas = FormHelper::arrayObjToOptionArray($arrFakultasObj, __('- Pilih Fakultas -'));
+
+        if ($request->isMethod('get')) {
+            return view('page.intitusi.prodi.create', compact('arrFakultas'));
+        } else {
+            $fakultas_id = $request->get('fakultas_id');
+            $nama = $request->get('nama');
+            $kode = $request->get('kode');
+
+            $validator = $this->prodiService->createValidation($request->all());
+
+            if ($validator->fails()) {
+                return response()->json(
+                    $validator->messages(), 500
+                );
+            } else {
+                try {
+                    $fakultas = $this->fakultasRepository->find($fakultas_id);
+
+                    $prodi = new Prodi();
+                    $prodi->setNama($nama);
+                    $prodi->setKode($kode);
+                    $prodi->setFakultas($fakultas);
+
+                    $this->prodiService->create($prodi);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        ['message' => $e->getMessage()], 500
+                    );
+                }
+
+                return response()->json(
+                    ['success' => true]
+                );
+            }
+        }
     }
 
 }

@@ -2,7 +2,7 @@
 
 @section('title')
     @lang('Program Studi')
-    <a href="" class="btn btn-primary btn-circle btn-sm showCreateModal">
+    <a href="{{ route('prodi.create') }}" class="btn btn-primary btn-circle btn-sm showCreateModal">
         <i class="fas fa-plus"></i>
     </a>
 @endsection

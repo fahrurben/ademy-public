@@ -25,4 +25,16 @@ class FakultasRepository extends EntityRepository
 
         return $query;
     }
+
+    public function getAllFakultas()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $qb->select('f')
+            ->from('\Domain\Institusi\Fakultas', 'f')
+                ->where($qb->expr()->isNull('f.deletedAt'))
+                ->orderBy('f.nama', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
 }

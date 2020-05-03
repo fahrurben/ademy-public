@@ -34,4 +34,8 @@ class FakultasService extends BaseService
         parent::__construct($entityManager, $this->fakultasRepository);
     }
 
+    public function createValidation($requestData)
+    {
+        return Validator::make($requestData, $this->createValidationRules);
+    }
 }
