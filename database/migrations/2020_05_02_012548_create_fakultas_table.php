@@ -15,17 +15,12 @@ class CreateFakultasTable extends Migration
     {
         Schema::create('fakultas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('organization_id');
-            $table->string('nama')->unique();
-            $table->string('kode')->unique();
+            $table->string('nama');
+            $table->string('kode');
             $table->timestamps();
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
             $table->softDeletes();
-
-            $table->foreign('organization_id', 'fakultas_organization_id_foreign')
-                ->references('id')->on('organization')
-                ->onDelete('RESTRICT');
         });
     }
 

@@ -13,7 +13,6 @@ use App\Http\Controllers\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Institusi\Fakultas;
 use Domain\Institusi\Services\FakultasService;
-use Domain\Organization\Organization;
 use Illuminate\Http\Request;
 use Nayjest\Grids\DbalDataProvider;
 use Nayjest\Grids\FieldConfig;
@@ -32,20 +31,16 @@ class FakultasController extends Controller
 
     private $fakultasService;
 
-    private $organizationRepository;
-
     public function __construct(EntityManagerInterface $entityManager, FakultasService $fakultasService)
     {
         $this->entityManager = $entityManager;
         $this->fakultasRepository = $entityManager->getRepository(Fakultas::class);
-        $this->organizationRepository = $entityManager->getRepository(Organization::class);
         $this->fakultasService = $fakultasService;
     }
 
-    public function index($subdomain, Request $request)
+    public function index(Request $request)
     {
-        $organiztionId = $request->get('organizationId');
-        $getFakultasQuery = $this->fakultasRepository->getFakultasGridQuery($organiztionId);
+        $getFakultasQuery = $this->fakultasRepository->getFakultasGridQuery();
 
         $grid = new Grid(
             (new GridConfig())
@@ -72,7 +67,7 @@ class FakultasController extends Controller
         return view('page.intitusi.fakultas.index', compact('grid'));
     }
 
-    public function create($subdomain, Request $request)
+    public function create(Request $request)
     {
         if ($request->isMethod('get')) {
             return view('page.intitusi.fakultas.create');
@@ -89,12 +84,10 @@ class FakultasController extends Controller
             } else {
                 try {
                     $organizationId = $request->get('organizationId');
-                    $organization = $this->organizationRepository->find($organizationId);
 
                     $fakultas = new Fakultas();
                     $fakultas->setNama($nama);
                     $fakultas->setKode($kode);
-                    $fakultas->setOrganization($organization);
 
                     $this->fakultasService->create($fakultas);
                 } catch (\Exception $e) {
@@ -110,14 +103,14 @@ class FakultasController extends Controller
         }
     }
 
-    public function view($subdomain, $id, Request $request)
+    public function view($id, Request $request)
     {
         $fakultas = $this->fakultasRepository->find($id);
 
         return view('page.intitusi.fakultas.view', compact('fakultas'));
     }
 
-    public function update($subdomain, $id, Request $request)
+    public function update($id, Request $request)
     {
         $fakultas = $this->fakultasRepository->find($id);
 
@@ -146,7 +139,7 @@ class FakultasController extends Controller
         }
     }
 
-    public function delete($subdomain, $id, Request $request)
+    public function delete($id, Request $request)
     {
         try {
             $fakultas = $this->fakultasRepository->find($id);

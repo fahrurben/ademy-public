@@ -14,14 +14,12 @@ use Doctrine\ORM\EntityRepository;
 
 class FakultasRepository extends EntityRepository
 {
-    public function getFakultasGridQuery($organizationId)
+    public function getFakultasGridQuery()
     {
         $query = $this->getEntityManager()->getConnection()->createQueryBuilder();
-        $query->select('id', 'nama', 'kode', 'organization_id')
+        $query->select('id', 'nama', 'kode')
             ->from('fakultas')
-            ->where('fakultas.organization_id = ?')
-            ->andWhere('fakultas.deleted_at is NULL')
-            ->setParameter(0, $organizationId);
+            ->where('fakultas.deleted_at is NULL');
 
         return $query;
     }

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthenticationController extends Controller
 {
-    public function login($subdomain, Request $request, EntityManager $entityManager)
+    public function login(Request $request, EntityManager $entityManager)
     {
         if ($request->isMethod('get')) {
             Auth::logout();
@@ -34,10 +34,6 @@ class AuthenticationController extends Controller
             ];
             $validator = Validator::make($request->all(), $rules);
 
-            $organization = $entityManager
-                ->getRepository(Organization::class)
-                ->findOneBy(['subdomain' => $subdomain]);
-
 
             if ($validator->fails()) {
                 return redirect('login')
@@ -49,7 +45,6 @@ class AuthenticationController extends Controller
                 [
                     'email' => $email,
                     'password' => $password,
-                    'organization_id' => $organization->getId(),
                     'deleted_at' => null,
                 ])) {
                 return redirect()->route('home');

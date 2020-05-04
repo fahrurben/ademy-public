@@ -39,12 +39,6 @@ class Fakultas
      */
     protected $kode;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="\Domain\Organization\Organization")
-     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id")
-     */
-    protected $organization;
-
     public function __construct()
     {
     }
@@ -95,22 +89,6 @@ class Fakultas
     public function setKode($kode): void
     {
         $this->kode = $kode;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOrganization()
-    {
-        return $this->organization;
-    }
-
-    /**
-     * @param mixed $organization
-     */
-    public function setOrganization($organization): void
-    {
-        $this->organization = $organization;
     }
 
 }

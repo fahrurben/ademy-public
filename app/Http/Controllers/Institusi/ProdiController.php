@@ -42,7 +42,7 @@ class ProdiController extends Controller
         $this->prodiService = $prodiService;
     }
 
-    public function index($subdomain, Request $request)
+    public function index(Request $request)
     {
         $getProdiQuery = $this->prodiRepository->getProdiGridQuery();
 
@@ -85,7 +85,7 @@ class ProdiController extends Controller
         return view('page.intitusi.prodi.index', compact('grid'));
     }
 
-    public function create($subdomain, Request $request)
+    public function create(Request $request)
     {
         $arrFakultasObj = $this->fakultasRepository->getAllFakultas();
         $arrFakultas = FormHelper::arrayObjToOptionArray($arrFakultasObj, __('- Pilih Fakultas -'));
@@ -126,14 +126,14 @@ class ProdiController extends Controller
         }
     }
 
-    public function view($subdomain, $id, Request $request)
+    public function view($id, Request $request)
     {
         $prodi = $this->prodiRepository->findOneBy(['id' => $id]);
 
         return view('page.intitusi.prodi.view', compact('prodi'));
     }
 
-    public function update($subdomain, $id, Request $request)
+    public function update($id, Request $request)
     {
         $arrFakultasObj = $this->fakultasRepository->getAllFakultas();
         $arrFakultas = FormHelper::arrayObjToOptionArray($arrFakultasObj, __('- Pilih Fakultas -'));
