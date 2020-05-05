@@ -21,9 +21,6 @@ class ProdiService extends BaseService
     private $prodiRepository;
 
     protected $createValidationRules = [
-        'nama' => 'required|unique:\Domain\Institusi\Prodi,nama,{$id},id,deletedAt,NULL',
-        'kode' => 'required|unique:\Domain\Institusi\Prodi,kode,{$id},id,deletedAt,NULL',
-        'fakultas_id' => 'required',
     ];
 
     public function __construct(EntityManager $entityManager)
@@ -36,5 +33,16 @@ class ProdiService extends BaseService
     public function createValidation($requestData)
     {
         return Validator::make($requestData, $this->createValidationRules);
+    }
+
+    public function getProdiGridQuery()
+    {
+        $query = $this->entityManager->getConnection()->createQueryBuilder();
+        $query->select('id', 'nama', 'kode', 'fakultas_id')
+            ->from('prodi')
+            ->andWhere('prodi.deleted_at is NULL')
+            ->orderBy('nama');
+
+        return $query;
     }
 }

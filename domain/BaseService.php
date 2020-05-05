@@ -8,9 +8,7 @@
 
 namespace Domain;
 
-
 use Doctrine\ORM\EntityManager;
-use Illuminate\Support\Facades\Validator;
 
 class BaseService
 {
@@ -18,13 +16,32 @@ class BaseService
 
     private $entityManager;
 
-    private $createValidationRules = [];
-
-    public function __construct(EntityManager $entityManager, $repository)
+    public function __construct(EntityManager $entityManager, BaseRepository $repository)
     {
         $this->entityManager = $entityManager;
         $this->repository = $repository;
     }
+
+    public function find($id)
+    {
+        return $this->repository->find($id);
+    }
+
+    public function findAll()
+    {
+        return $this->repository->findAll();
+    }
+
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    {
+        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
+    public function findOneBy(array $criteria, array $orderBy = null)
+    {
+        return $this->repository->findOneBy($criteria, $orderBy);
+    }
+
     public function create($entity)
     {
         $this->entityManager->persist($entity);

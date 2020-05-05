@@ -27,20 +27,17 @@ class FakultasController extends Controller
 {
     private $entityManager;
 
-    private $fakultasRepository;
-
     private $fakultasService;
 
     public function __construct(EntityManagerInterface $entityManager, FakultasService $fakultasService)
     {
         $this->entityManager = $entityManager;
-        $this->fakultasRepository = $entityManager->getRepository(Fakultas::class);
         $this->fakultasService = $fakultasService;
     }
 
     public function index(Request $request)
     {
-        $getFakultasQuery = $this->fakultasRepository->getFakultasGridQuery();
+        $getFakultasQuery = $this->fakultasService->getFakultasGridQuery();
 
         $grid = new Grid(
             (new GridConfig())
@@ -105,14 +102,14 @@ class FakultasController extends Controller
 
     public function view($id, Request $request)
     {
-        $fakultas = $this->fakultasRepository->find($id);
+        $fakultas = $this->fakultasService->find($id);
 
         return view('page.intitusi.fakultas.view', compact('fakultas'));
     }
 
     public function update($id, Request $request)
     {
-        $fakultas = $this->fakultasRepository->find($id);
+        $fakultas = $this->fakultasService->find($id);
 
         if ($request->isMethod('get')) {
             return view('page.intitusi.fakultas.update', ['fakultas' => $fakultas]);
@@ -142,7 +139,7 @@ class FakultasController extends Controller
     public function delete($id, Request $request)
     {
         try {
-            $fakultas = $this->fakultasRepository->find($id);
+            $fakultas = $this->fakultasService->find($id);
             $this->fakultasService->delete($id);
         } catch (\Exception $e) {
             return response()->json(

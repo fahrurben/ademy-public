@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Institusi\Fakultas;
 use Domain\Institusi\Prodi;
+use Domain\Institusi\Services\FakultasService;
 use Domain\Institusi\Services\ProdiService;
 use Illuminate\Http\Request;
 use Nayjest\Grids\DbalDataProvider;
@@ -32,19 +33,18 @@ class ProdiController extends Controller
 
     private $prodiService;
 
-    private $fakultasRepository;
+    private $fakultasService;
 
-    public function __construct(EntityManagerInterface $entityManager, ProdiService $prodiService)
+    public function __construct(EntityManagerInterface $entityManager, ProdiService $prodiService, FakultasService $fakultasService)
     {
         $this->entityManager = $entityManager;
-        $this->prodiRepository = $entityManager->getRepository(Prodi::class);
-        $this->fakultasRepository = $entityManager->getRepository(Fakultas::class);
         $this->prodiService = $prodiService;
+        $this->fakultasService = $fakultasService;
     }
 
     public function index(Request $request)
     {
-        $getProdiQuery = $this->prodiRepository->getProdiGridQuery();
+        $getProdiQuery = $this->prodiService->getProdiGridQuery();
 
         $grid = new Grid(
             (new GridConfig())
@@ -63,7 +63,7 @@ class ProdiController extends Controller
                                 ->setOperator(FilterConfig::OPERATOR_EQ)
                         )
                         ->setCallback(function ($val, ObjectDataRow $row) {
-                            $fakultas = $this->fakultasRepository->find($val);
+                            $fakultas = $this->fakultasService->find($val);
                             return $fakultas->getNama();
                         })
                         ->setSortable(true)
@@ -87,7 +87,7 @@ class ProdiController extends Controller
 
     public function create(Request $request)
     {
-        $arrFakultasObj = $this->fakultasRepository->getAllFakultas();
+        $arrFakultasObj = $this->fakultasService->findBy([], ['nama' => 'ASC']);
         $arrFakultas = FormHelper::arrayObjToOptionArray($arrFakultasObj, __('- Pilih Fakultas -'));
 
         if ($request->isMethod('get')) {
@@ -105,7 +105,7 @@ class ProdiController extends Controller
                 );
             } else {
                 try {
-                    $fakultas = $this->fakultasRepository->find($fakultas_id);
+                    $fakultas = $this->fakultasService->find($fakultas_id);
 
                     $prodi = new Prodi();
                     $prodi->setNama($nama);
@@ -128,17 +128,17 @@ class ProdiController extends Controller
 
     public function view($id, Request $request)
     {
-        $prodi = $this->prodiRepository->findOneBy(['id' => $id]);
+        $prodi = $this->prodiService->find($id);
 
         return view('page.intitusi.prodi.view', compact('prodi'));
     }
 
     public function update($id, Request $request)
     {
-        $arrFakultasObj = $this->fakultasRepository->getAllFakultas();
+        $arrFakultasObj = $this->fakultasService->findBy([], ['nama' => 'ASC']);
         $arrFakultas = FormHelper::arrayObjToOptionArray($arrFakultasObj, __('- Pilih Fakultas -'));
 
-        $prodi = $this->prodiRepository->find($id);
+        $prodi = $this->prodiService->find($id);
 
         if ($request->isMethod('get')) {
             return view('page.intitusi.prodi.update', compact('arrFakultas', 'prodi'));
@@ -155,13 +155,13 @@ class ProdiController extends Controller
                 );
             } else {
                 try {
-                    $fakultas = $this->fakultasRepository->find($fakultas_id);
+                    $fakultas = $this->fakultasService->find($fakultas_id);
 
                     $prodi->setNama($nama);
                     $prodi->setKode($kode);
                     $prodi->setFakultas($fakultas);
 
-                    $this->prodiService->create($prodi);
+                    $this->prodiService->update($prodi);
                 } catch (\Exception $e) {
                     return response()->json(
                         ['message' => $e->getMessage()], 500

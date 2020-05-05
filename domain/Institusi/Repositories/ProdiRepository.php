@@ -10,17 +10,8 @@ namespace Domain\Institusi\Repositories;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
+use Domain\BaseRepository;
 
-class ProdiRepository extends EntityRepository
+class ProdiRepository extends EntityRepository implements BaseRepository
 {
-    public function getProdiGridQuery()
-    {
-        $query = $this->getEntityManager()->getConnection()->createQueryBuilder();
-        $query->select('id', 'nama', 'kode', 'fakultas_id')
-            ->from('prodi')
-            ->andWhere('prodi.deleted_at is NULL')
-            ->orderBy('nama');
-
-        return $query;
-    }
 }

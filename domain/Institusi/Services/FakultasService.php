@@ -38,4 +38,14 @@ class FakultasService extends BaseService
     {
         return Validator::make($requestData, $this->createValidationRules);
     }
+
+    public function getFakultasGridQuery()
+    {
+        $query = $this->entityManager->getConnection()->createQueryBuilder();
+        $query->select('id', 'nama', 'kode')
+            ->from('fakultas')
+            ->where('fakultas.deleted_at is NULL');
+
+        return $query;
+    }
 }
