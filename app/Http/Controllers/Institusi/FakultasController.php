@@ -11,7 +11,7 @@ namespace App\Http\Controllers\Institusi;
 
 use App\Http\Controllers\Controller;
 use Doctrine\ORM\EntityManagerInterface;
-use Domain\Institusi\Fakultas;
+use Domain\Institusi\DTOs\FakultasDTO;
 use Domain\Institusi\Services\FakultasService;
 use Illuminate\Http\Request;
 use Nayjest\Grids\DbalDataProvider;
@@ -80,11 +80,8 @@ class FakultasController extends Controller
                 );
             } else {
                 try {
-                    $organizationId = $request->get('organizationId');
-
-                    $fakultas = new Fakultas();
-                    $fakultas->setNama($nama);
-                    $fakultas->setKode($kode);
+                    $fakultas = new FakultasDTO();
+                    $fakultas->setAttributesFromRequestArray($request->all());
 
                     $this->fakultasService->create($fakultas);
                 } catch (\Exception $e) {
@@ -124,13 +121,10 @@ class FakultasController extends Controller
                         $validator->messages(), 500
                     );
                 } else {
-                    $nama = $request->get('nama');
-                    $kode = $request->get('kode');
+                    $fakultas = new FakultasDTO();
+                    $fakultas->setAttributesFromRequestArray($request->all());
 
-                    $fakultas->setNama($nama);
-                    $fakultas->setKode($kode);
-
-                    $this->fakultasService->update($fakultas);
+                    $this->fakultasService->update($id, $fakultas);
                 }
             } catch (\Exception $e) {
                 return response()->json(

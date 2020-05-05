@@ -11,6 +11,7 @@ namespace Domain\Institusi\Services;
 
 use Doctrine\ORM\EntityManager;
 use Domain\BaseService;
+use Domain\Exceptions\EntityNotFoundException;
 use Domain\Institusi\Fakultas;
 use Domain\Institusi\Repositories\FakultasRepository;
 use Illuminate\Support\Facades\Validator;
@@ -56,5 +57,30 @@ class FakultasService extends BaseService
             ->where('fakultas.deleted_at is NULL');
 
         return $query;
+    }
+
+    public function create($fakultasObject)
+    {
+        $fakultasEntity = new Fakultas();
+        $fakultasEntity->setNama($fakultasObject->nama);
+        $fakultasEntity->setKode($fakultasObject->kode);
+
+        $this->entityManager->persist($fakultasEntity);
+        $this->entityManager->flush();
+    }
+
+    public function update($id, $fakultasObject)
+    {
+        $fakultasEntity = $this->fakultasRepository->find($id);
+
+        if (!isset($fakultasEntity)) {
+            throw new EntityNotFoundException('Entity Not Found');
+        }
+
+        $fakultasEntity->setNama($fakultasObject->nama);
+        $fakultasEntity->setKode($fakultasObject->kode);
+
+        $this->entityManager->merge($fakultasEntity);
+        $this->entityManager->flush();
     }
 }

@@ -11,8 +11,7 @@ namespace App\Http\Controllers\Institusi;
 use App\Helper\FormHelper;
 use App\Http\Controllers\Controller;
 use Doctrine\ORM\EntityManagerInterface;
-use Domain\Institusi\Fakultas;
-use Domain\Institusi\Prodi;
+use Domain\Institusi\DTOs\ProdiDTO;
 use Domain\Institusi\Services\FakultasService;
 use Domain\Institusi\Services\ProdiService;
 use Illuminate\Http\Request;
@@ -93,10 +92,6 @@ class ProdiController extends Controller
         if ($request->isMethod('get')) {
             return view('page.intitusi.prodi.create', compact('arrFakultas'));
         } else {
-            $fakultas_id = $request->get('fakultas_id');
-            $nama = $request->get('nama');
-            $kode = $request->get('kode');
-
             $validator = $this->prodiService->createValidation($request->all());
 
             if ($validator->fails()) {
@@ -105,12 +100,8 @@ class ProdiController extends Controller
                 );
             } else {
                 try {
-                    $fakultas = $this->fakultasService->find($fakultas_id);
-
-                    $prodi = new Prodi();
-                    $prodi->setNama($nama);
-                    $prodi->setKode($kode);
-                    $prodi->setFakultas($fakultas);
+                    $prodi = new ProdiDTO();
+                    $prodi->setAttributesFromRequestArray($request->all());
 
                     $this->prodiService->create($prodi);
                 } catch (\Exception $e) {
@@ -143,10 +134,6 @@ class ProdiController extends Controller
         if ($request->isMethod('get')) {
             return view('page.intitusi.prodi.update', compact('arrFakultas', 'prodi'));
         } else {
-            $fakultas_id = $request->get('fakultas_id');
-            $nama = $request->get('nama');
-            $kode = $request->get('kode');
-
             $requestData = $request->all();
             $requestData['id'] = $id;
             $validator = $this->prodiService->updateValidation($requestData);
@@ -157,13 +144,10 @@ class ProdiController extends Controller
                 );
             } else {
                 try {
-                    $fakultas = $this->fakultasService->find($fakultas_id);
+                    $prodi = new ProdiDTO();
+                    $prodi->setAttributesFromRequestArray($request->all());
 
-                    $prodi->setNama($nama);
-                    $prodi->setKode($kode);
-                    $prodi->setFakultas($fakultas);
-
-                    $this->prodiService->update($prodi);
+                    $this->prodiService->update($id, $prodi);
                 } catch (\Exception $e) {
                     return response()->json(
                         ['message' => $e->getMessage()], 500

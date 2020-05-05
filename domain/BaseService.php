@@ -44,14 +44,12 @@ class BaseService
 
     public function create($entity)
     {
-        $this->entityManager->persist($entity);
-        $this->entityManager->flush();
+        throw new \Exception('This function have no implementation');
     }
 
-    public function update($entity)
+    public function update($id, $entity)
     {
-        $this->entityManager->merge($entity );
-        $this->entityManager->flush();
+        throw new \Exception('This function have no implementation');
     }
 
     public function delete($id)
