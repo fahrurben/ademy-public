@@ -39,6 +39,15 @@ class FakultasService extends BaseService
         return Validator::make($requestData, $this->createValidationRules);
     }
 
+    public function updateValidation($requestData)
+    {
+        $updateValidationRules = [
+            'nama' => 'required|unique:\Domain\Institusi\Fakultas,nama,'.$requestData['id'].',id,deletedAt,null',
+            'kode' => 'required|unique:\Domain\Institusi\Fakultas,kode,'.$requestData['id'].',id,deletedAt,null',
+        ];
+        return Validator::make($requestData, $updateValidationRules);
+    }
+
     public function getFakultasGridQuery()
     {
         $query = $this->entityManager->getConnection()->createQueryBuilder();

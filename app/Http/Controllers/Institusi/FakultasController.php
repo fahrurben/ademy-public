@@ -115,15 +115,23 @@ class FakultasController extends Controller
             return view('page.intitusi.fakultas.update', ['fakultas' => $fakultas]);
         } else {
             try {
-                $nama = $request->get('nama');
-                $kode = $request->get('kode');
+                $requestData = $request->all();
+                $requestData['id'] = $id;
+                $validator = $this->fakultasService->updateValidation($requestData);
 
-                $validator = $this->fakultasService->createValidation($request->all());
+                if ($validator->fails()) {
+                    return response()->json(
+                        $validator->messages(), 500
+                    );
+                } else {
+                    $nama = $request->get('nama');
+                    $kode = $request->get('kode');
 
-                $fakultas->setNama($nama);
-                $fakultas->setKode($kode);
+                    $fakultas->setNama($nama);
+                    $fakultas->setKode($kode);
 
-                $this->fakultasService->update($fakultas);
+                    $this->fakultasService->update($fakultas);
+                }
             } catch (\Exception $e) {
                 return response()->json(
                     ['message' => $e->getMessage()], 500
@@ -139,7 +147,6 @@ class FakultasController extends Controller
     public function delete($id, Request $request)
     {
         try {
-            $fakultas = $this->fakultasService->find($id);
             $this->fakultasService->delete($id);
         } catch (\Exception $e) {
             return response()->json(

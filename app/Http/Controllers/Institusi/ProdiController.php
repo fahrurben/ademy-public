@@ -147,7 +147,9 @@ class ProdiController extends Controller
             $nama = $request->get('nama');
             $kode = $request->get('kode');
 
-            $validator = $this->prodiService->createValidation($request->all());
+            $requestData = $request->all();
+            $requestData['id'] = $id;
+            $validator = $this->prodiService->updateValidation($requestData);
 
             if ($validator->fails()) {
                 return response()->json(
@@ -175,4 +177,18 @@ class ProdiController extends Controller
         }
     }
 
+    public function delete($id, Request $request)
+    {
+        try {
+            $this->prodiService->delete($id);
+        } catch (\Exception $e) {
+            return response()->json(
+                ['message' => $e->getMessage()], 500
+            );
+        }
+
+        return response()->json(
+            ['success' => true]
+        );
+    }
 }
