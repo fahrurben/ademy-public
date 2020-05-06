@@ -9,6 +9,7 @@
 namespace Domain;
 
 use Doctrine\ORM\EntityManager;
+use Illuminate\Support\Facades\Auth;
 
 class BaseService
 {

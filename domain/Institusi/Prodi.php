@@ -15,6 +15,7 @@ use Domain\SoftDeleteEntity;
 
 /**
  * @ORM\Entity(repositoryClass="\Domain\Institusi\Repositories\ProdiRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="prodi")
  * @SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
