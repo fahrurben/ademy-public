@@ -77,11 +77,8 @@ class TahunAjaranController extends Controller
 
     public function create(Request $request)
     {
-        $arrTahunAjaranObj = $this->tahunAjaranService->findBy([], ['tahunAwal' => 'ASC', 'tipe' => 'DESC']);
-        $arrTahunAjaran = FormHelper::arrayObjToOptionArray($arrTahunAjaranObj, __('- Pilih Tahun Ajaran -'));
-
         if ($request->isMethod('get')) {
-            return view('page.intitusi.tahunajaran.create', compact('arrTahunAjaran'));
+            return view('page.intitusi.tahunajaran.create');
         } else {
             $validator = $this->tahunAjaranService->createValidation($request->all());
 
