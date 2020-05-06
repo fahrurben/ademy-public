@@ -26,7 +26,7 @@ class TahunAjaranService extends BaseService
     {
         $this->entityManager = $entityManager;
         $this->tahunAjaranRepository = $entityManager->getRepository(TahunAjaran::class);
-        parent::__construct($entityManager, $this->fakultasRepository);
+        parent::__construct($entityManager, $this->tahunAjaranRepository);
     }
 
     public function createValidation($tahunAjaranObject)
@@ -49,38 +49,28 @@ class TahunAjaranService extends BaseService
         return $arrResult.length > 0;
     }
 
-    public function getFakultasGridQuery()
+    public function getGridQuery()
     {
         $query = $this->entityManager->getConnection()->createQueryBuilder();
-        $query->select('id', 'nama', 'kode')
-            ->from('fakultas')
-            ->where('fakultas.deleted_at is NULL');
+        $query->select('id', 'tipe', 'tahun_awal', 'tahun_akhir', 'status')
+            ->from('tahun_ajaran')
+            ->where('tahun_ajaran.deleted_at is NULL')
+            ->orderBy('tahun_awal', 'ASC')
+            ->addOrderBy('tipe', 'ASC');
 
         return $query;
     }
 
-    public function create($fakultasObject)
+    public function create($taObject)
     {
-        $fakultasEntity = new Fakultas();
-        $fakultasEntity->setNama($fakultasObject->nama);
-        $fakultasEntity->setKode($fakultasObject->kode);
+        $taEntity = new TahunAjaran();
+        $taEntity->setTipe($taObject->tipe);
+        $taEntity->setTahunAwal($taObject->tahunAwal);
+        $taEntity->setTahunAkhir($taObject->tahunAkhir);
+        $taEntity->setStatus($taObject->status);
 
-        $this->entityManager->persist($fakultasEntity);
+        $this->entityManager->persist($taEntity);
         $this->entityManager->flush();
     }
 
-    public function update($id, $fakultasObject)
-    {
-        $fakultasEntity = $this->fakultasRepository->find($id);
-
-        if (!isset($fakultasEntity)) {
-            throw new EntityNotFoundException('Entity Not Found');
-        }
-
-        $fakultasEntity->setNama($fakultasObject->nama);
-        $fakultasEntity->setKode($fakultasObject->kode);
-
-        $this->entityManager->merge($fakultasEntity);
-        $this->entityManager->flush();
-    }
 }

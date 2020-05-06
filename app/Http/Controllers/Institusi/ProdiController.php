@@ -50,7 +50,7 @@ class ProdiController extends Controller
                 ->setName('pageGrid')
                 ->setDataProvider(new DbalDataProvider($getProdiQuery))
                 ->setColumns([
-                    new IdFieldConfig(),
+                    GridColumnHelper::generateNumberingViewColumn(),
                     GridColumnHelper::generateViewColumn('kode', 'Kode', FilterConfig::OPERATOR_LIKE),
                     GridColumnHelper::generateViewColumn('nama', 'Nama', FilterConfig::OPERATOR_LIKE),
                     (new FieldConfig)

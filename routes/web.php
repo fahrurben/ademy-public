@@ -36,3 +36,7 @@ Route::post('/prodi/update/{id}', 'Institusi\ProdiController@update')->name('pro
 Route::get('/prodi/delete/{id}', 'Institusi\ProdiController@delete')->name('prodi.delete');
 Route::get('/prodi/view/{id}', 'Institusi\ProdiController@view')->name('prodi.view');
 Route::post('/prodi/view/{id}', 'Institusi\ProdiController@view')->name('prodi.view');
+
+Route::get('/tahunajaran', 'Institusi\TahunAjaranController@index')->name('tahunajaran');
+Route::get('/tahunajaran/create', 'Institusi\TahunAjaranController@create')->name('tahunajaran.create');
+Route::post('/tahunajaran/create', 'Institusi\TahunAjaranController@create')->name('tahunajaran.create');

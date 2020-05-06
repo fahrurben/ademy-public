@@ -9,6 +9,9 @@
 namespace Domain\Institusi\Repositories;
 
 
+use Doctrine\ORM\EntityRepository;
+use Domain\BaseRepository;
+
 class TahunAjaranRepository extends EntityRepository implements BaseRepository
 {
     public function isExist($tahunAjaranObject, $id = null) {

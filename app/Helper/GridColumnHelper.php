@@ -35,4 +35,11 @@ class GridColumnHelper
 
         return $column;
     }
+
+    public static function generateNumberingViewColumn()
+    {
+        return (new FieldConfig())
+            ->setName('id')
+            ->setLabel('#');
+    }
 }
