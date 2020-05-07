@@ -19,11 +19,11 @@
   }
 
   .main-nav {
-    li {
+    > li {
       border-bottom: 1px #5373FE solid;
       &:hover, &:focus-within {
-        a {
-          background-color: #3E64FF;
+        > a {
+          background-color: #5373FE;
         }
       }
       a {
@@ -52,8 +52,18 @@
       }
     }
 
+
+
     .dropdown-menu {
       background-color: #3E64FF;
+      >li {
+        >a {
+          &:hover {
+            background-image: none;
+            background-color: #5373FE;
+          }
+        }
+      }
     }
   }
 
