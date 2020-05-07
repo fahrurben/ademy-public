@@ -31,25 +31,37 @@
 
 <!-- app -->
 <div class="root-wrapper">
+
+    @if(Auth::check())
     <div class="main-nav-column">
         <ul class="main-nav nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a href="{{ url('/') }}" class="nav-link active" href="#">
                     <i class="fas fa-home fa-lg"></i>
                     <span>@lang('Home')</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-user fa-lg"></i>
-                    <span>@lang('Mahasiswa')</span>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button">
+                    <i class="fas fa-university fa-lg"></i>
+                    <span>@lang('Universitas')</span>
                 </a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ route('fakultas') }}">@lang('Fakultas')</a></li>
+                    <li><a href="{{ route('prodi') }}">@lang('Program Studi')</a></li>
+                    <li><a href="{{ route('tahunajaran') }}">@lang('Tahun Ajaran')</a></li>
+                </ul>
             </li>
         </ul>
     </div>
+    @endif
+
     <div class="main-wrapper">
-        <div class="page-header">
-            <h3 class="page-title">@yield('title')</h3>
+        <div class="page-header clearfix">
+            <h3 class="page-title pull-left">@yield('title')</h3>
+            @if(Auth::check())
+                <a href="{{ route('logout') }}" class="logout btn btn-danger pull-right"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            @endif
         </div>
         <div class="container-fluid page-wrapper">
             @yield('content')

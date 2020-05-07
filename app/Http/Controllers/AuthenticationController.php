@@ -57,4 +57,10 @@ class AuthenticationController extends Controller
             return view('page.home');
         }
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('login');
+    }
 }

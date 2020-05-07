@@ -21,7 +21,11 @@
   .main-nav {
     li {
       border-bottom: 1px #5373FE solid;
-
+      &:hover, &:focus-within {
+        a {
+          background-color: #3E64FF;
+        }
+      }
       a {
         display: flex;
         color: #F9F7FF;
@@ -48,6 +52,9 @@
       }
     }
 
+    .dropdown-menu {
+      background-color: #3E64FF;
+    }
   }
 
   .main-wrapper {
@@ -69,6 +76,10 @@
     color: #939290;
     font-size: 20px;
     font-weight: 600;
+  }
+
+  .logout {
+    margin-top: 10px;
   }
 }
 
