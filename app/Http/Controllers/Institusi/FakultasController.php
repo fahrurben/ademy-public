@@ -39,7 +39,7 @@ class FakultasController extends Controller
     {
         $getFakultasQuery = $this->fakultasService->getFakultasGridQuery();
 
-        $grid = new Grid(
+        $gridConfig =
             (new GridConfig())
                 ->setName('pageGrid')
                 ->setDataProvider(new DbalDataProvider($getFakultasQuery))
@@ -58,8 +58,9 @@ class FakultasController extends Controller
                                 return $buttons;
                             }
                         })
-                ])
-        );
+                ]);
+        GridColumnHelper::generateFilterSortingHeader($gridConfig);
+        $grid = new Grid($gridConfig);
 
         return view('page.intitusi.fakultas.index', compact('grid'));
     }

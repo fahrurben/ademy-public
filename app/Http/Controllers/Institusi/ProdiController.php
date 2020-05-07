@@ -45,7 +45,7 @@ class ProdiController extends Controller
     {
         $getProdiQuery = $this->prodiService->getProdiGridQuery();
 
-        $grid = new Grid(
+        $gridConfig =
             (new GridConfig())
                 ->setName('pageGrid')
                 ->setDataProvider(new DbalDataProvider($getProdiQuery))
@@ -78,8 +78,9 @@ class ProdiController extends Controller
                                 return $buttons;
                             }
                         }),
-                ])
-        );
+                ]);
+        GridColumnHelper::generateFilterSortingHeader($gridConfig);
+        $grid = new Grid($gridConfig);
 
         return view('page.intitusi.prodi.index', compact('grid'));
     }

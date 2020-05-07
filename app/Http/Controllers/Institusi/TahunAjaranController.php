@@ -41,7 +41,7 @@ class TahunAjaranController extends Controller
     {
         $gridQuery = $this->tahunAjaranService->getGridQuery();
 
-        $grid = new Grid(
+        $gridConfig =
             (new GridConfig())
                 ->setName('pageGrid')
                 ->setDataProvider(new DbalDataProvider($gridQuery))
@@ -68,8 +68,10 @@ class TahunAjaranController extends Controller
                                 return $buttons;
                             }
                         })
-                ])
-        );
+                ]);
+
+        GridColumnHelper::generateFilterSortingHeader($gridConfig);
+        $grid = new Grid($gridConfig);
 
         return view('page.intitusi.tahunajaran.index', compact('grid'));
     }
