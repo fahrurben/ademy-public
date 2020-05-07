@@ -42,3 +42,5 @@ Route::get('/tahunajaran/create', 'Institusi\TahunAjaranController@create')->nam
 Route::post('/tahunajaran/create', 'Institusi\TahunAjaranController@create')->name('tahunajaran.create');
 Route::get('/tahunajaran/update/{id}', 'Institusi\TahunAjaranController@update')->name('tahunajaran.update');
 Route::post('/tahunajaran/update/{id}', 'Institusi\TahunAjaranController@update')->name('tahunajaran.update');
+Route::get('/tahunajaran/delete/{id}', 'Institusi\TahunAjaranController@delete')->name('tahunajaran.delete');
+Route::get('/tahunajaran/view/{id}', 'Institusi\TahunAjaranController@view')->name('tahunajaran.view');

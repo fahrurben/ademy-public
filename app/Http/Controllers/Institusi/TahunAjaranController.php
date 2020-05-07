@@ -62,10 +62,9 @@ class TahunAjaranController extends Controller
                         ->setLabel('Action')
                         ->setCallback(function ($val, ObjectDataRow $row) {
                             if ($val) {
-//                                $buttons ='<a href="'.route('fakultas.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
-                                  $buttons =' <a href="'.route('tahunajaran.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
-//                                $buttons .=' <a href="'.route('fakultas.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
-//                                return $buttons;
+                                $buttons ='<a href="'.route('tahunajaran.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
+                                $buttons .=' <a href="'.route('tahunajaran.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
+                                $buttons .=' <a href="'.route('tahunajaran.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
                                 return $buttons;
                             }
                         })
@@ -147,5 +146,27 @@ class TahunAjaranController extends Controller
                 );
             }
         }
+    }
+
+    public function view($id, Request $request)
+    {
+        $tahunAjaran = $this->tahunAjaranService->find($id);
+
+        return view('page.intitusi.tahunajaran.view', compact('tahunAjaran'));
+    }
+
+    public function delete($id, Request $request)
+    {
+        try {
+            $this->tahunAjaranService->delete($id);
+        } catch (\Exception $e) {
+            return response()->json(
+                ['message' => $e->getMessage()], 500
+            );
+        }
+
+        return response()->json(
+            ['success' => true]
+        );
     }
 }

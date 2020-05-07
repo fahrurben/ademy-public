@@ -8,6 +8,7 @@
 
 namespace Domain\Institusi;
 
+use App\Constant;
 use Gedmo\Mapping\Annotation\SoftDeleteable;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\AuditableEntity;
@@ -86,6 +87,11 @@ class TahunAjaran
         $this->tipe = $tipe;
     }
 
+    public function getTipeString()
+    {
+        return Constant::TA_TYPE[$this->tipe] ?? '';
+    }
+
     /**
      * @return mixed
      */
@@ -134,4 +140,8 @@ class TahunAjaran
         $this->status = $status;
     }
 
+    public function getStatusString()
+    {
+        return Constant::STATUS_TYPE[$this->status] ?? '';
+    }
 }
