@@ -12,6 +12,12 @@ namespace App\Helper;
 use Nayjest\Grids\DbalDataProvider;
 use Nayjest\Grids\FieldConfig;
 use Nayjest\Grids\FilterConfig;
+use Nayjest\Grids\Components\ColumnHeadersRow;
+use Nayjest\Grids\Components\FiltersRow;
+use Nayjest\Grids\Components\HtmlTag;
+use Nayjest\Grids\Components\OneCellRow;
+use Nayjest\Grids\Components\RecordsPerPage;
+use Nayjest\Grids\Components\THead;
 
 class GridColumnHelper
 {
@@ -34,6 +40,36 @@ class GridColumnHelper
         }
 
         return $column;
+    }
+
+    public static function generateFilterSortingHeader($gridConfig)
+    {
+        $gridConfig->setComponents([
+            (new THead())
+                ->setComponents([
+                    (new ColumnHeadersRow),
+                    (new FiltersRow),
+                    (new OneCellRow)
+                        ->setComponents([
+                            (new RecordsPerPage())
+                                ->setVariants([
+                                    50,
+                                    100,
+                                    1000
+                                ])
+                            ,
+                            (new HtmlTag)
+                                ->setTagName('button')
+                                ->setAttributes([
+                                    'type' => 'submit',
+                                    'class' => 'btn btn-primary'
+                                ])
+                                ->setContent('Filter')
+                        ])
+                        ->setRenderSection(THead::SECTION_AFTER)
+                    ,
+                ])
+        ]);
     }
 
     public static function generateNumberingViewColumn()

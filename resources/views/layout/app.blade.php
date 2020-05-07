@@ -52,6 +52,12 @@
                     <li><a href="{{ route('tahunajaran') }}">@lang('Tahun Ajaran')</a></li>
                 </ul>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('mahasiswa') }}" class="nav-link active" href="#">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>@lang('Mahasiswa')</span>
+                </a>
+            </li>
         </ul>
     </div>
     @endif
