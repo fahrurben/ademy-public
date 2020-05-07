@@ -9,6 +9,8 @@
 namespace Domain\Institusi\DTOs;
 
 
+use Domain\BaseDTO;
+
 class TahunAjaranDTO extends BaseDTO
 {
     public $id;

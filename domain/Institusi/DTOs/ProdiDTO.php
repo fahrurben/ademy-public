@@ -9,6 +9,8 @@
 namespace Domain\Institusi\DTOs;
 
 
+use Domain\BaseDTO;
+
 class ProdiDTO extends BaseDTO
 {
     public $id;

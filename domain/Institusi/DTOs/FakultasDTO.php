@@ -8,6 +8,8 @@
 
 namespace Domain\Institusi\DTOs;
 
+use Domain\BaseDTO;
+
 class FakultasDTO extends BaseDTO
 {
     public $id;

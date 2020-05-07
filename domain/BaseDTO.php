@@ -6,7 +6,7 @@
  * Time: 5:30
  */
 
-namespace Domain\Institusi\DTOs;
+namespace Domain;
 
 
 class BaseDTO
