@@ -31,7 +31,7 @@ class TahunAjaranRepository extends EntityRepository implements BaseRepository
         $queryBuilder->setParameter(3, $tahunAjaranObject->tahunAkhir);
 
         if (isset($id)) {
-            $queryBuilder->setParameter(4, $tahunAjaranObject->id);
+            $queryBuilder->setParameter(4, $id);
         }
 
         return $queryBuilder->getQuery()->getResult();

@@ -31,22 +31,41 @@ class TahunAjaranService extends BaseService
 
     public function createValidation($tahunAjaranObject)
     {
-        $createValidationRules = [];
-        return Validator::make($tahunAjaranObject, $createValidationRules);
+        $createValidationRules = [
+            'tipe' => 'required',
+            'tahunAwal' => 'required',
+            'tahunAkhir' => 'required',
+            'status' => 'required',
+        ];
+
+        $tahunAjaranArray = $tahunAjaranObject;
+        if (is_object($tahunAjaranObject)) {
+            $tahunAjaranArray = (array) $tahunAjaranObject;
+        }
+        return Validator::make($tahunAjaranArray, $createValidationRules);
     }
 
     public function updateValidation($tahunAjaranObject)
     {
-        $updateValidationRules = [];
+        $updateValidationRules = [
+            'tipe' => 'required',
+            'tahunAwal' => 'required',
+            'tahunAkhir' => 'required',
+            'status' => 'required',
+        ];
 
-        return Validator::make($tahunAjaranObject, $updateValidationRules);
+        $tahunAjaranArray = $tahunAjaranObject;
+        if (is_object($tahunAjaranObject)) {
+            $tahunAjaranArray = (array) $tahunAjaranObject;
+        }
+        return Validator::make($tahunAjaranArray, $updateValidationRules);
     }
 
     public function isExist($tahunAjaranObject, $id = null)
     {
         $arrResult = $this->tahunAjaranRepository->isExist($tahunAjaranObject, $id);
 
-        return $arrResult.length > 0;
+        return count($arrResult) > 0;
     }
 
     public function getGridQuery()
@@ -70,6 +89,18 @@ class TahunAjaranService extends BaseService
         $taEntity->setStatus($taObject->status);
 
         $this->entityManager->persist($taEntity);
+        $this->entityManager->flush();
+    }
+
+    public function update($id, $taObject)
+    {
+        $taEntity = $this->tahunAjaranRepository->find($id);
+        $taEntity->setTipe($taObject->tipe);
+        $taEntity->setTahunAwal($taObject->tahunAwal);
+        $taEntity->setTahunAkhir($taObject->tahunAkhir);
+        $taEntity->setStatus($taObject->status);
+
+        $this->entityManager->merge($taEntity);
         $this->entityManager->flush();
     }
 
