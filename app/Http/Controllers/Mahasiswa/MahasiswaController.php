@@ -9,9 +9,12 @@
 namespace App\Http\Controllers\Mahasiswa;
 
 use App\Constant;
+use App\Helper\FormHelper;
 use App\Http\Controllers\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Institusi\Services\ProdiService;
+use Domain\Institusi\Services\TahunAjaranService;
+use Domain\Mahasiswa\DTOs\MahasiswaDTO;
 use Domain\Mahasiswa\Services\MahasiswaService;
 use Illuminate\Http\Request;
 use Nayjest\Grids\DbalDataProvider;
@@ -31,17 +34,22 @@ class MahasiswaController extends Controller
 
     private $prodiService;
 
+    private $tahunAjaranService;
+
     public function __construct(
         EntityManagerInterface $entityManager,
         MahasiswaService $mahasiswaService,
-        ProdiService $prodiService)
+        ProdiService $prodiService,
+        TahunAjaranService $tahunAjaranService
+    )
     {
         $this->entityManager = $entityManager;
         $this->mahasiswaService = $mahasiswaService;
         $this->prodiService = $prodiService;
+        $this->tahunAjaranService = $tahunAjaranService;
     }
 
-    public function index(Request $request)
+    public function index()
     {
         $getMahasiswaQuery = $this->mahasiswaService->getMahasiswaGridQuery();
 
@@ -104,7 +112,7 @@ class MahasiswaController extends Controller
                     (new FieldConfig())
                         ->setName('id')
                         ->setLabel('Action')
-                        ->setCallback(function ($val, ObjectDataRow $row) {
+                        ->setCallback(function ($val) {
                             if ($val) {
 //                                $buttons ='<a href="'.route('fakultas.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
 //                                $buttons .=' <a href="'.route('fakultas.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
@@ -119,4 +127,41 @@ class MahasiswaController extends Controller
         return view('page.mahasiswa.mahasiswa.index', compact('grid'));
     }
 
+    public function create(Request $request)
+    {
+        $arrProdiObj = $this->prodiService->findBy([], ['nama' => 'ASC']);
+        $arrProdiOptions = FormHelper::arrayObjToOptionArray($arrProdiObj, __('- Pilih Prodi -'));
+
+        $tahunAjaranLabelFunc = fn($obj) => ($obj->getTipe() == 1 ? 'Ganjil' : 'Genap').' : '.$obj->getTahunAwal().' - '.$obj->getTahunAkhir();
+        $arrTahunAjaranObj = $this->tahunAjaranService->findBy([], ['tahunAwal' => 'ASC']);
+        $arrTahunAjaranOptions = FormHelper::arrayObjToOptionArray($arrTahunAjaranObj, __('- Pilih Tahun Ajaran -'), null, $tahunAjaranLabelFunc);
+
+        if ($request->isMethod('get')) {
+            return view('page.mahasiswa.mahasiswa.create', compact('arrProdiOptions', 'arrTahunAjaranOptions'));
+        } else {
+            $validator = $this->mahasiswaService->createValidation($request->all());
+
+            if ($validator->fails()) {
+                return response()->json(
+                    $validator->messages(), 500
+                );
+            } else {
+                try {
+                    $mahasiswa = new MahasiswaDTO();
+                    $mahasiswa->setAttributesFromRequestArray($request->all());
+                    $mahasiswa->setTanggalLahirFromLocale($mahasiswa->tanggalLahir);
+
+                    $this->mahasiswaService->create($mahasiswa);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        ['message' => $e->getMessage()], 500
+                    );
+                }
+
+                return response()->json(
+                    ['success' => true]
+                );
+            }
+        }
+    }
 }

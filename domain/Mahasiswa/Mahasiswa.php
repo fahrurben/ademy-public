@@ -36,6 +36,11 @@ class Mahasiswa
     protected $nim;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    protected $noId;
+
+    /**
      * @ORM\Column(name="nama_depan", type="string")
      */
     protected $namaDepan;
@@ -73,7 +78,7 @@ class Mahasiswa
     protected $tahunAjaranMasuk;
 
     /**
-     * @ORM\Column(name="semester", type="int")
+     * @ORM\Column(name="semester", type="integer")
      */
     protected $semester;
 
@@ -121,6 +126,22 @@ class Mahasiswa
     public function setNim($nim): void
     {
         $this->nim = $nim;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNoId()
+    {
+        return $this->noId;
+    }
+
+    /**
+     * @param mixed $noId
+     */
+    public function setNoId($noId): void
+    {
+        $this->noId = $noId;
     }
 
     /**

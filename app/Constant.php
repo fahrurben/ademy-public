@@ -24,4 +24,14 @@ class Constant
       1 => 'Aktif',
       3 => 'Selesai',
     ];
+
+    const STATUS_MAHASISWA = [
+        0 => 'In Aktif',
+        1 => 'Aktif',
+    ];
+
+    const STATUS_INAKTIF = 0;
+    const STATUS_AKTIF = 1;
+
+    const LOCAL_DATE_FORMAT = 'd/m/Y';
 }

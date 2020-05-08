@@ -33,3 +33,5 @@ window.toastr = require('toastr');
 require('bootstrap');
 require('jquery-pjax');
 window.bootbox = require('bootbox');
+window.moment = require('moment');
+require('eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min');

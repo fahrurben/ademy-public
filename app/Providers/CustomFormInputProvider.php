@@ -28,5 +28,6 @@ class CustomFormInputProvider extends ServiceProvider
         Form::component('selectBox', 'components.ui.form.selectBox', ['name', 'options', 'value', 'label', 'attributes', 'error']);
         Form::component('ckBox', 'components.ui.form.checkBox', ['name', 'value', 'label', 'attributes', 'error']);
         Form::component('viewField', 'components.ui.form.viewField', [ 'label', 'value','attributes']);
+        Form::component('datePicker', 'components.ui.form.datePicker', ['name', 'value', 'label', 'attributes', 'error']);
     }
 }

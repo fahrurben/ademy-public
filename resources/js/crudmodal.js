@@ -13,6 +13,9 @@ $( document ).ready(function() {
                 $("#" + content).html(data);
                 $('#' + modalId).modal();
                 $('.loading').hide();
+                $('.datepicker').datetimepicker({
+                    format: 'DD/MM/YYYY'
+                });
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
