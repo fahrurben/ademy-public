@@ -204,4 +204,11 @@ class MahasiswaController extends Controller
             }
         }
     }
+
+    public function view($id)
+    {
+        $mahasiswa = $this->mahasiswaService->find($id);
+
+        return view('page.mahasiswa.mahasiswa.view', compact('mahasiswa'));
+    }
 }
