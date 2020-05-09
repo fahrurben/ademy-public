@@ -116,7 +116,7 @@ class MahasiswaController extends Controller
                             if ($val) {
                                 $buttons ='<a href="'.route('mahasiswa.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
                                 $buttons .=' <a href="'.route('mahasiswa.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
-//                                $buttons .=' <a href="'.route('fakultas.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
+                                $buttons .=' <a href="'.route('mahasiswa.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
                                 return $buttons;
                             }
                         })
@@ -210,5 +210,21 @@ class MahasiswaController extends Controller
         $mahasiswa = $this->mahasiswaService->find($id);
 
         return view('page.mahasiswa.mahasiswa.view', compact('mahasiswa'));
+    }
+
+
+    public function delete($id)
+    {
+        try {
+            $this->mahasiswaService->delete($id);
+        } catch (\Exception $e) {
+            return response()->json(
+                ['message' => $e->getMessage()], 500
+            );
+        }
+
+        return response()->json(
+            ['success' => true]
+        );
     }
 }

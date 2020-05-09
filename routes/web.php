@@ -52,3 +52,4 @@ Route::post('/mahasiswa/create', 'Mahasiswa\MahasiswaController@create')->name('
 Route::get('/mahasiswa/update/{id}', 'Mahasiswa\MahasiswaController@update')->name('mahasiswa.update');
 Route::post('/mahasiswa/update/{id}', 'Mahasiswa\MahasiswaController@update')->name('mahasiswa.update');
 Route::get('/mahasiswa/view/{id}', 'Mahasiswa\MahasiswaController@view')->name('mahasiswa.view');
+Route::get('/mahasiswa/delete/{id}', 'Mahasiswa\MahasiswaController@delete')->name('mahasiswa.delete');
