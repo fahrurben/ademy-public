@@ -21,7 +21,7 @@ use Nayjest\Grids\DbalDataProvider;
 use Nayjest\Grids\FieldConfig;
 use Nayjest\Grids\FilterConfig;
 use Nayjest\Grids\Grid;
-use Nayjest\Grids\GridConfig;{{  }}
+use Nayjest\Grids\GridConfig;
 use Nayjest\Grids\ObjectDataRow;
 use App\Helper\GridColumnHelper;
 use Nayjest\Grids\SelectFilterConfig;
