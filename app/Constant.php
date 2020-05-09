@@ -34,4 +34,11 @@ class Constant
     const STATUS_AKTIF = 1;
 
     const LOCAL_DATE_FORMAT = 'd/m/Y';
+
+    const JABATAN_DOSEN_TYPE = [
+        '1' => 'Asisten Ahli',
+        '2' => 'Lektor',
+        '3' => 'Lektor Kepala',
+        '4' => 'Profesor',
+    ];
 }

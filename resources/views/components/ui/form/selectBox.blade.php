@@ -14,7 +14,7 @@
                 id="{{ Arr::get($attributes, 'id', '') }}"
                 name="{{ $name }}">
             @foreach($options as $key => $option)
-                <option value="{{ $key }}" {{ $key == $value ? ' selected' : '' }}>{{ $option }}</option>
+                <option value="{{ $key }}" {{ $key === $value ? ' selected' : '' }}>{{ $option }}</option>
             @endforeach
         </select>
         <div class="invalid-feedback text-danger"></div>

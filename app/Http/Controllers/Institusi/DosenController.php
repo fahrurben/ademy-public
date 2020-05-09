@@ -12,6 +12,7 @@ use App\Constant;
 use App\Helper\FormHelper;
 use App\Http\Controllers\Controller;
 use Doctrine\ORM\EntityManagerInterface;
+use Domain\Institusi\DTOs\DosenDTO;
 use Domain\Institusi\Services\DosenService;
 use Domain\Institusi\Services\FakultasService;
 use Illuminate\Http\Request;
@@ -19,8 +20,7 @@ use Nayjest\Grids\DbalDataProvider;
 use Nayjest\Grids\FieldConfig;
 use Nayjest\Grids\FilterConfig;
 use Nayjest\Grids\Grid;
-use Nayjest\Grids\GridConfig;{{  }}
-use Nayjest\Grids\ObjectDataRow;
+use Nayjest\Grids\GridConfig;
 use App\Helper\GridColumnHelper;
 use Nayjest\Grids\SelectFilterConfig;
 
@@ -45,19 +45,7 @@ class DosenController extends Controller
 
     public function index()
     {
-        $getMahasiswaQuery = $this->dosenService->getDosenGridQuery();
-
-        // Initialize tahun masuk fitler options
-        $tahunMasukOptions = [];
-        for($i = Constant::TAHUN_START; $i <= Constant::TAHUN_END; $i++) {
-            $tahunMasukOptions[$i] = $i;
-        }
-
-        // Initialize semster fitler options
-        $semesterOptions = [];
-        for($i = 1; $i <= 20; $i++) {
-            $semesterOptions[$i] = $i;
-        }
+        $getDosenQuery = $this->dosenService->getDosenGridQuery();
 
         // Initialize fakultas filter options
         $fakultasOptions = [];
@@ -68,7 +56,7 @@ class DosenController extends Controller
 
         $gridConfig = (new GridConfig())
             ->setName('pageGrid')
-            ->setDataProvider(new DbalDataProvider($getMahasiswaQuery))
+            ->setDataProvider(new DbalDataProvider($getDosenQuery))
             ->setColumns([
                 GridColumnHelper::generateNumberingViewColumn(),
                 GridColumnHelper::generateViewColumn('nid', 'NID', FilterConfig::OPERATOR_LIKE),
@@ -99,6 +87,44 @@ class DosenController extends Controller
         $grid = new Grid($gridConfig);
 
         return view('page.institusi.dosen.index', compact('grid'));
+    }
+
+    public function create(Request $request)
+    {
+        // Initialize fakultas filter options
+        $fakultasOptions = [];
+        $fakultasList = $this->fakultasService->findBy(['deletedAt' => null], ['nama' => 'ASC']);
+        $fakultasOptions = FormHelper::arrayObjToOptionArray($fakultasList, __('- Pilih Fakultas -'));
+
+        $jabatanOptions = array_merge(['' => __('- Pilih Jabatan -')], Constant::JABATAN_DOSEN_TYPE);
+
+        if ($request->isMethod('get')) {
+            return view('page.institusi.dosen.create', compact('fakultasOptions', 'jabatanOptions'));
+        } else {
+            $validator = $this->dosenService->createValidation($request->all());
+
+            if ($validator->fails()) {
+                return response()->json(
+                    $validator->messages(), 500
+                );
+            } else {
+                try {
+                    $dosen = new DosenDTO();
+                    $dosen->setAttributesFromRequestArray($request->all());
+                    $dosen->setTanggalLahirFromLocale($dosen->tanggalLahir);
+
+                    $this->dosenService->create($dosen);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        ['message' => $e->getMessage()], 500
+                    );
+                }
+
+                return response()->json(
+                    ['success' => true]
+                );
+            }
+        }
     }
 
 }
