@@ -82,7 +82,7 @@ class ProdiController extends Controller
         GridColumnHelper::generateFilterSortingHeader($gridConfig);
         $grid = new Grid($gridConfig);
 
-        return view('page.intitusi.prodi.index', compact('grid'));
+        return view('page.institusi.prodi.index', compact('grid'));
     }
 
     public function create(Request $request)
@@ -91,7 +91,7 @@ class ProdiController extends Controller
         $arrFakultas = FormHelper::arrayObjToOptionArray($arrFakultasObj, __('- Pilih Fakultas -'));
 
         if ($request->isMethod('get')) {
-            return view('page.intitusi.prodi.create', compact('arrFakultas'));
+            return view('page.institusi.prodi.create', compact('arrFakultas'));
         } else {
             $validator = $this->prodiService->createValidation($request->all());
 
@@ -122,7 +122,7 @@ class ProdiController extends Controller
     {
         $prodi = $this->prodiService->find($id);
 
-        return view('page.intitusi.prodi.view', compact('prodi'));
+        return view('page.institusi.prodi.view', compact('prodi'));
     }
 
     public function update($id, Request $request)
@@ -133,7 +133,7 @@ class ProdiController extends Controller
         $prodi = $this->prodiService->find($id);
 
         if ($request->isMethod('get')) {
-            return view('page.intitusi.prodi.update', compact('arrFakultas', 'prodi'));
+            return view('page.institusi.prodi.update', compact('arrFakultas', 'prodi'));
         } else {
             $requestData = $request->all();
             $requestData['id'] = $id;

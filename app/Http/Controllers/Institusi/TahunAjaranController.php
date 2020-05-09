@@ -73,13 +73,13 @@ class TahunAjaranController extends Controller
         GridColumnHelper::generateFilterSortingHeader($gridConfig);
         $grid = new Grid($gridConfig);
 
-        return view('page.intitusi.tahunajaran.index', compact('grid'));
+        return view('page.institusi.tahunajaran.index', compact('grid'));
     }
 
     public function create(Request $request)
     {
         if ($request->isMethod('get')) {
-            return view('page.intitusi.tahunajaran.create');
+            return view('page.institusi.tahunajaran.create');
         } else {
             $validator = $this->tahunAjaranService->createValidation($request->all());
 
@@ -116,7 +116,7 @@ class TahunAjaranController extends Controller
         $tahunAjaran = $this->tahunAjaranService->find($id);
 
         if ($request->isMethod('get')) {
-            return view('page.intitusi.tahunajaran.update', compact('tahunAjaran'));
+            return view('page.institusi.tahunajaran.update', compact('tahunAjaran'));
         } else {
             $requestData = $request->all();
             $requestData['id'] = $id;
@@ -154,7 +154,7 @@ class TahunAjaranController extends Controller
     {
         $tahunAjaran = $this->tahunAjaranService->find($id);
 
-        return view('page.intitusi.tahunajaran.view', compact('tahunAjaran'));
+        return view('page.institusi.tahunajaran.view', compact('tahunAjaran'));
     }
 
     public function delete($id, Request $request)

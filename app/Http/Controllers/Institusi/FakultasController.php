@@ -62,13 +62,13 @@ class FakultasController extends Controller
         GridColumnHelper::generateFilterSortingHeader($gridConfig);
         $grid = new Grid($gridConfig);
 
-        return view('page.intitusi.fakultas.index', compact('grid'));
+        return view('page.institusi.fakultas.index', compact('grid'));
     }
 
     public function create(Request $request)
     {
         if ($request->isMethod('get')) {
-            return view('page.intitusi.fakultas.create');
+            return view('page.institusi.fakultas.create');
         } else {
             $nama = $request->get('nama');
             $kode = $request->get('kode');
@@ -102,7 +102,7 @@ class FakultasController extends Controller
     {
         $fakultas = $this->fakultasService->find($id);
 
-        return view('page.intitusi.fakultas.view', compact('fakultas'));
+        return view('page.institusi.fakultas.view', compact('fakultas'));
     }
 
     public function update($id, Request $request)
@@ -110,7 +110,7 @@ class FakultasController extends Controller
         $fakultas = $this->fakultasService->find($id);
 
         if ($request->isMethod('get')) {
-            return view('page.intitusi.fakultas.update', ['fakultas' => $fakultas]);
+            return view('page.institusi.fakultas.update', ['fakultas' => $fakultas]);
         } else {
             try {
                 $requestData = $request->all();
