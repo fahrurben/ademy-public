@@ -49,3 +49,6 @@ Route::get('/tahunajaran/view/{id}', 'Institusi\TahunAjaranController@view')->na
 Route::get('/mahasiswa', 'Mahasiswa\MahasiswaController@index')->name('mahasiswa');
 Route::get('/mahasiswa/create', 'Mahasiswa\MahasiswaController@create')->name('mahasiswa.create');
 Route::post('/mahasiswa/create', 'Mahasiswa\MahasiswaController@create')->name('mahasiswa.create');
+Route::get('/mahasiswa/update/{id}', 'Mahasiswa\MahasiswaController@update')->name('mahasiswa.update');
+Route::post('/mahasiswa/update/{id}', 'Mahasiswa\MahasiswaController@update')->name('mahasiswa.update');
+Route::get('/mahasiswa/view/{id}', 'Mahasiswa\MahasiswaController@view')->name('mahasiswa.view');

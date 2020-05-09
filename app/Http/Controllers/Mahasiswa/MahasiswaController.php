@@ -114,10 +114,10 @@ class MahasiswaController extends Controller
                         ->setLabel('Action')
                         ->setCallback(function ($val) {
                             if ($val) {
-//                                $buttons ='<a href="'.route('fakultas.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
-//                                $buttons .=' <a href="'.route('fakultas.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
+                                $buttons ='<a href="'.route('mahasiswa.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
+                                $buttons .=' <a href="'.route('mahasiswa.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
 //                                $buttons .=' <a href="'.route('fakultas.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
-                                return '';
+                                return $buttons;
                             }
                         })
                 ]);
@@ -132,9 +132,9 @@ class MahasiswaController extends Controller
         $arrProdiObj = $this->prodiService->findBy([], ['nama' => 'ASC']);
         $arrProdiOptions = FormHelper::arrayObjToOptionArray($arrProdiObj, __('- Pilih Prodi -'));
 
-        $tahunAjaranLabelFunc = fn($obj) => ($obj->getTipe() == 1 ? 'Ganjil' : 'Genap').' : '.$obj->getTahunAwal().' - '.$obj->getTahunAkhir();
         $arrTahunAjaranObj = $this->tahunAjaranService->findBy([], ['tahunAwal' => 'ASC']);
-        $arrTahunAjaranOptions = FormHelper::arrayObjToOptionArray($arrTahunAjaranObj, __('- Pilih Tahun Ajaran -'), null, $tahunAjaranLabelFunc);
+        $arrTahunAjaranOptions = FormHelper::arrayObjToOptionArray($arrTahunAjaranObj, __('- Pilih Tahun Ajaran -'), null,
+            fn($obj) => ($obj->getTipe() == 1 ? 'Ganjil' : 'Genap').' : '.$obj->getTahunAwal().' - '.$obj->getTahunAkhir());
 
         if ($request->isMethod('get')) {
             return view('page.mahasiswa.mahasiswa.create', compact('arrProdiOptions', 'arrTahunAjaranOptions'));
@@ -152,6 +152,46 @@ class MahasiswaController extends Controller
                     $mahasiswa->setTanggalLahirFromLocale($mahasiswa->tanggalLahir);
 
                     $this->mahasiswaService->create($mahasiswa);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        ['message' => $e->getMessage()], 500
+                    );
+                }
+
+                return response()->json(
+                    ['success' => true]
+                );
+            }
+        }
+    }
+
+    public function update($id, Request $request)
+    {
+        $mahasiswa = $this->mahasiswaService->find($id);
+
+        $arrProdiObj = $this->prodiService->findBy([], ['nama' => 'ASC']);
+        $arrProdiOptions = FormHelper::arrayObjToOptionArray($arrProdiObj, __('- Pilih Prodi -'));
+
+        $arrTahunAjaranObj = $this->tahunAjaranService->findBy([], ['tahunAwal' => 'ASC']);
+        $arrTahunAjaranOptions = FormHelper::arrayObjToOptionArray($arrTahunAjaranObj, __('- Pilih Tahun Ajaran -'), null,
+            fn($obj) => ($obj->getTipe() == 1 ? 'Ganjil' : 'Genap').' : '.$obj->getTahunAwal().' - '.$obj->getTahunAkhir());
+
+        if ($request->isMethod('get')) {
+            return view('page.mahasiswa.mahasiswa.update', compact('arrProdiOptions', 'arrTahunAjaranOptions', 'mahasiswa'));
+        } else {
+            $validator = $this->mahasiswaService->updateValidation($request->all(), $id);
+
+            if ($validator->fails()) {
+                return response()->json(
+                    $validator->messages(), 500
+                );
+            } else {
+                try {
+                    $mahasiswa = new MahasiswaDTO();
+                    $mahasiswa->setAttributesFromRequestArray($request->all());
+                    $mahasiswa->setTanggalLahirFromLocale($mahasiswa->tanggalLahir);
+
+                    $this->mahasiswaService->update($mahasiswa, $id);
                 } catch (\Exception $e) {
                     return response()->json(
                         ['message' => $e->getMessage()], 500
