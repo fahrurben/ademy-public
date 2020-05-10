@@ -78,7 +78,7 @@ class DosenController extends Controller
                         if ($val) {
                             $buttons ='<a href="'.route('dosen.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
                             $buttons .=' <a href="'.route('dosen.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
-//                            $buttons .=' <a href="'.route('mahasiswa.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
+                            $buttons .=' <a href="'.route('dosen.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
                             return $buttons;
                         }
                     })
@@ -170,5 +170,20 @@ class DosenController extends Controller
         $dosen = $this->dosenService->find($id);
 
         return view('page.institusi.dosen.view', compact('dosen'));
+    }
+
+    public function delete($id)
+    {
+        try {
+            $this->dosenService->delete($id);
+        } catch (\Exception $e) {
+            return response()->json(
+                ['message' => $e->getMessage()], 500
+            );
+        }
+
+        return response()->json(
+            ['success' => true]
+        );
     }
 }

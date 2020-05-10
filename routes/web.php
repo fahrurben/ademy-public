@@ -60,3 +60,4 @@ Route::post('/dosen/create', 'Institusi\DosenController@create')->name('dosen.cr
 Route::get('/dosen/update/{id}', 'Institusi\DosenController@update')->name('dosen.update');
 Route::post('/dosen/update/{id}', 'Institusi\DosenController@update')->name('dosen.update');
 Route::get('/dosen/view/{id}', 'Institusi\DosenController@view')->name('dosen.view');
+Route::get('/dosen/delete/{id}', 'Institusi\DosenController@delete')->name('dosen.delete');
