@@ -8,6 +8,7 @@
 
 namespace Domain\Institusi;
 
+use App\Constant;
 use Gedmo\Mapping\Annotation\SoftDeleteable;
 use Doctrine\ORM\Mapping as ORM;
 use Domain\AuditableEntity;
@@ -240,6 +241,14 @@ class Dosen
     public function getJabatan()
     {
         return $this->jabatan;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJabatanLabel()
+    {
+        return Constant::JABATAN_DOSEN_TYPE[$this->jabatan] ?? '';
     }
 
     /**

@@ -76,8 +76,8 @@ class DosenController extends Controller
                     ->setLabel('Action')
                     ->setCallback(function ($val) {
                         if ($val) {
-//                            $buttons ='<a href="'.route('mahasiswa.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
-                            $buttons =' <a href="'.route('dosen.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
+                            $buttons ='<a href="'.route('dosen.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
+                            $buttons .=' <a href="'.route('dosen.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
 //                            $buttons .=' <a href="'.route('mahasiswa.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
                             return $buttons;
                         }
@@ -165,4 +165,10 @@ class DosenController extends Controller
         }
     }
 
+    public function view($id)
+    {
+        $dosen = $this->dosenService->find($id);
+
+        return view('page.institusi.dosen.view', compact('dosen'));
+    }
 }
