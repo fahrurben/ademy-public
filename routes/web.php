@@ -57,3 +57,5 @@ Route::get('/mahasiswa/delete/{id}', 'Mahasiswa\MahasiswaController@delete')->na
 Route::get('/dosen', 'Institusi\DosenController@index')->name('dosen');
 Route::get('/dosen/create', 'Institusi\DosenController@create')->name('dosen.create');
 Route::post('/dosen/create', 'Institusi\DosenController@create')->name('dosen.create');
+Route::get('/dosen/update/{id}', 'Institusi\DosenController@update')->name('dosen.update');
+Route::post('/dosen/update/{id}', 'Institusi\DosenController@update')->name('dosen.update');

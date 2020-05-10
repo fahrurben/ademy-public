@@ -5,33 +5,33 @@
         <div class="col-md-12">
             @php
             @endphp
-            {{ Form::open(['url' => route('dosen.create'), 'class' => 'ajax-form']) }}
-            {{ Form::textInput('nid', '', 'NID',
+            {{ Form::open(['url' => route('dosen.update', ['id' => $dosen->getId()]), 'class' => 'ajax-form']) }}
+            {{ Form::textInput('nid', $dosen->getNid(), 'NID',
                 ['required' => true], $errors->first('nid'))
             }}
-            {{ Form::textInput('noId', '', 'No ID (KTP)',
+            {{ Form::textInput('noId', $dosen->getNoId(), 'No ID (KTP)',
                 [], $errors->first('noId'))
             }}
-            {{ Form::textInput('namaDepan', '', 'Nama Depan',
+            {{ Form::textInput('namaDepan', $dosen->getNamaDepan(), 'Nama Depan',
                 ['required' => true], $errors->first('namaDepan'))
             }}
-            {{ Form::textInput('namaBelakang', '', 'Nama Belakang',
+            {{ Form::textInput('namaBelakang', $dosen->getNamaBelakang(), 'Nama Belakang',
                 ['required' => true], $errors->first('namaBelakang'))
             }}
-            {{ Form::textInput('namaLengkap', '', 'Nama Lengkap',
+            {{ Form::textInput('namaLengkap', $dosen->getNamaLengkap(), 'Nama Lengkap',
                 ['required' => true], $errors->first('namaLengkap'))
             }}
-            {{ Form::textInput('tempatLahir', '', 'Tempat Lahir',
+            {{ Form::textInput('tempatLahir', $dosen->getTempatLahir(), 'Tempat Lahir',
                 ['required' => true], $errors->first('tempatLahir'))
             }}
-            {{ Form::datePicker('tanggalLahir', '', 'Tanggal Lahir',
+            {{ Form::datePicker('tanggalLahir', $dosen->getTanggalLahir()->format(Constant::LOCAL_DATE_FORMAT), 'Tanggal Lahir',
                 ['id' => 'datepicker_tanggal_lahir', 'required' => true], $errors->first('tanggalLahir'))
             }}
             {{ Form::selectBox('fakultasId', $fakultasOptions,
-                '', 'Fakultas', ['required' => true], $errors->first('fakultasId'))
+                $dosen->getFakultas()->getId(), 'Fakultas', ['required' => true], $errors->first('fakultasId'))
             }}
             {{ Form::selectBox('jabatan', $jabatanOptions,
-                '', 'Jabatan', ['required' => true], $errors->first('jabatan'))
+                $dosen->getJabatan(), 'Jabatan', ['required' => true], $errors->first('jabatan'))
             }}
             <div class="row">
                 <div class="col-md-12">

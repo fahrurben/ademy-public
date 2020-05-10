@@ -68,6 +68,21 @@ class DosenService extends BaseService
         return Validator::make($dosenArray, $createValidationRules);
     }
 
+    public function updateValidation($dosenObject, $id)
+    {
+        $updateValidationRules =
+            [
+                'nid' => 'required|unique:\Domain\Institusi\Dosen,nid,' . $id . ',id,deletedAt,NULL',
+            ]
+            + self::COMMON_VALIDATION_RULES;
+
+        $dosenArray = $dosenObject;
+        if (is_object($dosenObject)) {
+            $dosenArray = (array) $dosenObject;
+        }
+        return Validator::make($dosenArray, $updateValidationRules);
+    }
+
     public function create($dosenObject)
     {
         $fakultasEntity = $this->fakultasRepository->find($dosenObject->fakultasId);
@@ -89,4 +104,28 @@ class DosenService extends BaseService
         $this->entityManager->flush();
     }
 
+    public function update($dosenObject, $id)
+    {
+        $fakultasEntity = $this->fakultasRepository->find($dosenObject->fakultasId);
+        if (!isset($fakultasEntity)) throw new EntityNotFoundException('Data Fakultas tidak ada');
+
+        $dosenEntity = $this->dosenRepository->find($id);
+        if (!isset($dosenEntity)) {
+            throw new EntityNotFoundException('Data Dosen tidak ada');
+        }
+
+        $dosenEntity->setNid($dosenObject->nid);
+        $dosenEntity->setNoId($dosenObject->noId);
+        $dosenEntity->setNamaDepan($dosenObject->namaDepan);
+        $dosenEntity->setNamaBelakang($dosenObject->namaBelakang);
+        $dosenEntity->setNamaLengkap($dosenObject->namaLengkap);
+        $dosenEntity->setTempatLahir($dosenObject->tempatLahir);
+        $dosenEntity->setTanggalLahir($dosenObject->tanggalLahir);
+        $dosenEntity->setFakultas($fakultasEntity);
+        $dosenEntity->setJabatan($dosenObject->jabatan);
+        $dosenEntity->setStatus(Constant::STATUS_AKTIF);
+
+        $this->entityManager->persist($dosenEntity);
+        $this->entityManager->flush();
+    }
 }

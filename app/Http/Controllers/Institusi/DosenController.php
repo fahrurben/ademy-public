@@ -77,9 +77,9 @@ class DosenController extends Controller
                     ->setCallback(function ($val) {
                         if ($val) {
 //                            $buttons ='<a href="'.route('mahasiswa.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
-//                            $buttons .=' <a href="'.route('mahasiswa.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
+                            $buttons =' <a href="'.route('dosen.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
 //                            $buttons .=' <a href="'.route('mahasiswa.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
-//                            return $buttons;
+                            return $buttons;
                         }
                     })
             ]);
@@ -92,7 +92,6 @@ class DosenController extends Controller
     public function create(Request $request)
     {
         // Initialize fakultas filter options
-        $fakultasOptions = [];
         $fakultasList = $this->fakultasService->findBy(['deletedAt' => null], ['nama' => 'ASC']);
         $fakultasOptions = FormHelper::arrayObjToOptionArray($fakultasList, __('- Pilih Fakultas -'));
 
@@ -114,6 +113,45 @@ class DosenController extends Controller
                     $dosen->setTanggalLahirFromLocale($dosen->tanggalLahir);
 
                     $this->dosenService->create($dosen);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        ['message' => $e->getMessage()], 500
+                    );
+                }
+
+                return response()->json(
+                    ['success' => true]
+                );
+            }
+        }
+    }
+
+    public function update($id, Request $request)
+    {
+        $dosen = $this->dosenService->find($id);
+
+        // Initialize fakultas filter options
+        $fakultasList = $this->fakultasService->findBy(['deletedAt' => null], ['nama' => 'ASC']);
+        $fakultasOptions = FormHelper::arrayObjToOptionArray($fakultasList, __('- Pilih Fakultas -'));
+
+        $jabatanOptions = array_merge(['' => __('- Pilih Jabatan -')], Constant::JABATAN_DOSEN_TYPE);
+
+        if ($request->isMethod('get')) {
+            return view('page.institusi.dosen.update', compact('dosen', 'fakultasOptions', 'jabatanOptions'));
+        } else {
+            $validator = $this->dosenService->updateValidation($request->all(), $id);
+
+            if ($validator->fails()) {
+                return response()->json(
+                    $validator->messages(), 500
+                );
+            } else {
+                try {
+                    $dosen= new DosenDTO();
+                    $dosen->setAttributesFromRequestArray($request->all());
+                    $dosen->setTanggalLahirFromLocale($dosen->tanggalLahir);
+
+                    $this->dosenService->update($dosen, $id);
                 } catch (\Exception $e) {
                     return response()->json(
                         ['message' => $e->getMessage()], 500
