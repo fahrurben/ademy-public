@@ -40,15 +40,14 @@ class User implements \Illuminate\Contracts\Auth\Authenticatable
     protected $email;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\Domain\Organization\Organization")
-     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id")
-     */
-    protected $organization;
-
-    /**
      * @ORM\Column(name="email_verified_at", type="datetime")
      */
     protected $emailVerifiedAt;
+
+    /**
+     * @ORM\Column(name="role", type="integer")
+     */
+    protected $role;
 
     /**
      * @ORM\Column(type="string")
@@ -131,6 +130,22 @@ class User implements \Illuminate\Contracts\Auth\Authenticatable
     /**
      * @return mixed
      */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param mixed $role
+     */
+    public function setRole($role): void
+    {
+        $this->role = $role;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getPassword()
     {
         return $this->password;
@@ -199,23 +214,6 @@ class User implements \Illuminate\Contracts\Auth\Authenticatable
     {
         return $this->rememberToken;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getOrganization(): Organization
-    {
-        return $this->organization;
-    }
-
-    /**
-     * @param mixed $organization
-     */
-    public function setOrganization(Organization $organization): void
-    {
-        $this->organization = $organization;
-    }
-
 
 }
 

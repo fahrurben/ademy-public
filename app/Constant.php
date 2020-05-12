@@ -11,6 +11,11 @@ namespace App;
 
 class Constant
 {
+    // Security Roles
+    const SA_ROLE = 1;
+    const ADMIN_ROLE = 2;
+    const DATA_ENTRY_ROLE = 3;
+
     const TA_TYPE = [
       1 => 'Ganjil',
       2 => 'Genap',
@@ -41,4 +46,5 @@ class Constant
         '3' => 'Lektor Kepala',
         '4' => 'Profesor',
     ];
+
 }

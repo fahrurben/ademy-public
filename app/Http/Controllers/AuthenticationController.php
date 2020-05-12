@@ -45,7 +45,7 @@ class AuthenticationController extends Controller
                 [
                     'email' => $email,
                     'password' => $password,
-                    'deleted_at' => null,
+                    'deletedAt' => null,
                 ])) {
                 return redirect()->route('home');
             } else {

@@ -55,6 +55,8 @@ class Mahasiswa
      */
     protected $namaLengkap;
 
+    // Todo: tambahkan jenis kelamin
+
     /**
      * @ORM\Column(name="tempat_lahir", type="string")
      */

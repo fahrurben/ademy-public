@@ -71,10 +71,15 @@ return [
 //            'model' => App\User::class,
 //        ],
 
-         'users' => [
-             'driver' => 'database',
-             'table' => 'user',
-         ],
+//         'users' => [
+//             'driver' => 'database',
+//             'table' => 'user',
+//         ],
+
+        'users' => [
+            'driver' => 'doctrine',
+            'model' => \Domain\Security\User::class,
+        ],
     ],
 
     /*
