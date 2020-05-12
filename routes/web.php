@@ -17,8 +17,8 @@ Route::get('/login', 'AuthenticationController@login')->name('login');
 Route::post('/login', 'AuthenticationController@login')->name('login');
 Route::get('/logout', 'AuthenticationController@logout')->name('logout');
 
-Route::get('/', 'HomeController@index')->name('home');
-Route::post('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
+Route::post('/', 'HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => ['can:manage-universitas']], function () {
 
@@ -58,10 +58,14 @@ Route::group(['middleware' => ['can:manage-universitas']], function () {
 
 });
 
-Route::get('/mahasiswa', 'Mahasiswa\MahasiswaController@index')->name('mahasiswa');
-Route::get('/mahasiswa/create', 'Mahasiswa\MahasiswaController@create')->name('mahasiswa.create');
-Route::post('/mahasiswa/create', 'Mahasiswa\MahasiswaController@create')->name('mahasiswa.create');
-Route::get('/mahasiswa/update/{id}', 'Mahasiswa\MahasiswaController@update')->name('mahasiswa.update');
-Route::post('/mahasiswa/update/{id}', 'Mahasiswa\MahasiswaController@update')->name('mahasiswa.update');
-Route::get('/mahasiswa/view/{id}', 'Mahasiswa\MahasiswaController@view')->name('mahasiswa.view');
-Route::get('/mahasiswa/delete/{id}', 'Mahasiswa\MahasiswaController@delete')->name('mahasiswa.delete');
+Route::group(['middleware' => ['can:manage-mahasiswa']], function () {
+
+    Route::get('/mahasiswa', 'Mahasiswa\MahasiswaController@index')->name('mahasiswa');
+    Route::get('/mahasiswa/create', 'Mahasiswa\MahasiswaController@create')->name('mahasiswa.create');
+    Route::post('/mahasiswa/create', 'Mahasiswa\MahasiswaController@create')->name('mahasiswa.create');
+    Route::get('/mahasiswa/update/{id}', 'Mahasiswa\MahasiswaController@update')->name('mahasiswa.update');
+    Route::post('/mahasiswa/update/{id}', 'Mahasiswa\MahasiswaController@update')->name('mahasiswa.update');
+    Route::get('/mahasiswa/view/{id}', 'Mahasiswa\MahasiswaController@view')->name('mahasiswa.view');
+    Route::get('/mahasiswa/delete/{id}', 'Mahasiswa\MahasiswaController@delete')->name('mahasiswa.delete');
+
+});

@@ -23,4 +23,10 @@ class CommonPolicy
     public function manageUniversitas($user) {
         return $user->getRole() === Constant::SA_ROLE || $user->getRole() === Constant::ADMIN_ROLE;
     }
+
+    public function manageMahasiwa($user) {
+        return $user->getRole() === Constant::SA_ROLE ||
+            $user->getRole() === Constant::ADMIN_ROLE ||
+            $user->getRole() === Constant::DATA_ENTRY_ROLE;
+    }
 }
