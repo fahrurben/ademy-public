@@ -41,12 +41,12 @@
                     <span>@lang('Home')</span>
                 </a>
             </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" role="button">
+            <li class="dd-main">
+                <a href="#" class="dd-toggle nav-link">
                     <i class="fas fa-university fa-lg"></i>
                     <span>@lang('Universitas')</span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dd-list dropdown-menu">
                     <li><a href="{{ route('fakultas') }}">@lang('Fakultas')</a></li>
                     <li><a href="{{ route('prodi') }}">@lang('Program Studi')</a></li>
                     <li><a href="{{ route('tahunajaran') }}">@lang('Tahun Ajaran')</a></li>

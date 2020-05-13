@@ -27,7 +27,7 @@
           background-color: #5373FE;
         }
       }
-      a {
+      > a {
         display: flex;
         color: #F9F7FF;
         justify-content: center;
@@ -104,6 +104,31 @@
     padding-right: 10px;
     line-height: 53px;
     color: #8c8c8c;
+  }
+}
+
+.dd-main {
+  position: relative;
+
+  .dd-list {
+    position: absolute;
+    min-width: 100px;
+    top: 0px;
+    left: 90px;
+    background-color: #3E64FF;
+
+    > li {
+      > a {
+        color: #F9F7FF;
+        text-align: left !important;
+      }
+    }
+  }
+
+  &:hover {
+    .dd-list {
+      display: block !important;
+    }
   }
 }
 
