@@ -41,7 +41,7 @@ class MataKuliah
     protected $kode;
 
     /**
-     * @ORM\Column(type="tipe")
+     * @ORM\Column(type="integer")
      */
     protected $tipe;
 
@@ -52,12 +52,12 @@ class MataKuliah
     protected $prodi;
 
     /**
-     * @ORM\Column(type="bobot")
+     * @ORM\Column(type="integer")
      */
     protected $bobot;
 
     /**
-     * @ORM\Column(type="semester")
+     * @ORM\Column(type="integer")
      */
     protected $semester;
 
@@ -67,7 +67,7 @@ class MataKuliah
     protected $deskripsi;
 
     /**
-     * @ORM\Column(type="status")
+     * @ORM\Column(type="integer")
      */
     protected $status;
 

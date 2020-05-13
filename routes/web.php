@@ -57,6 +57,8 @@ Route::group(['middleware' => ['can:manage-universitas']], function () {
     Route::get('/dosen/delete/{id}', 'Institusi\DosenController@delete')->name('dosen.delete');
 
     Route::get('/matakuliah', 'Institusi\MataKuliahController@index')->name('matakuliah');
+    Route::get('/matakuliah/create', 'Institusi\MataKuliahController@create')->name('matakuliah.create');
+    Route::post('/matakuliah/create', 'Institusi\MataKuliahController@create')->name('matakuliah.create');
 });
 
 Route::group(['middleware' => ['can:manage-mahasiswa']], function () {

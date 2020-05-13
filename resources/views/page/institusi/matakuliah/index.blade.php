@@ -2,7 +2,7 @@
 
 @section('title')
     @lang('Mata Kuliah')
-    <a href="{{}}" class="btn btn-primary btn-circle btn-sm showCreateModal">
+    <a href="{{ route('matakuliah.create') }}" class="btn btn-primary btn-circle btn-sm showCreateModal">
         <i class="fas fa-plus"></i>
     </a>
 @endsection

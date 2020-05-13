@@ -12,6 +12,7 @@ use App\Constant;
 use App\Helper\FormHelper;
 use App\Http\Controllers\Controller;
 use Doctrine\ORM\EntityManagerInterface;
+use Domain\Institusi\DTOs\MataKuliahDTO;
 use Domain\Institusi\Services\MataKuliahService;
 use Domain\Institusi\Services\ProdiService;
 use Illuminate\Http\Request;
@@ -120,5 +121,42 @@ class MataKuliahController extends Controller
         $grid = new Grid($gridConfig);
 
         return view('page.institusi.matakuliah.index', compact('grid'));
+    }
+
+    public function create(Request $request)
+    {
+        $arrProdiObj = $this->prodiService->findBy([], ['nama' => 'ASC']);
+        $arrProdiOptions = FormHelper::arrayObjToOptionArray($arrProdiObj, __('- Pilih Prodi -'));
+
+        $arrTipeOptions = ['' => __('- Pilih Tipe -')] + Constant::MATAKULIAH_TYPE;
+        $arrStatusOptions = ['' => __('- Pilih Status -')] + Constant::COMMON_STATUS_TYPE;
+
+        if ($request->isMethod('get')) {
+            return view('page.institusi.matakuliah.create',
+                compact('arrProdiOptions', 'arrTipeOptions', 'arrStatusOptions'));
+        } else {
+            $validator = $this->mataKuliahService->createValidation($request->all());
+
+            if ($validator->fails()) {
+                return response()->json(
+                    $validator->messages(), 500
+                );
+            } else {
+                try {
+                    $matkul = new MataKuliahDTO();
+                    $matkul->setAttributesFromRequestArray($request->all());
+
+                    $this->mataKuliahService->create($matkul);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        ['message' => $e->getMessage()], 500
+                    );
+                }
+
+                return response()->json(
+                    ['success' => true]
+                );
+            }
+        }
     }
 }
