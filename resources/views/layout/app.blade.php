@@ -68,7 +68,10 @@
         <div class="page-header clearfix">
             <h3 class="page-title pull-left">@yield('title')</h3>
             @if(Auth::check())
-                <a href="{{ route('logout') }}" class="logout btn btn-danger pull-right"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                <div class="pull-right">
+                    <span class="logged_user">{{ Auth::user()->getEmail() }}</span>
+                    <a href="{{ route('logout') }}" class="logout btn btn-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
             @endif
         </div>
         <div class="container-fluid page-wrapper">
