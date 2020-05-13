@@ -50,6 +50,8 @@
                     <li><a href="{{ route('fakultas') }}">@lang('Fakultas')</a></li>
                     <li><a href="{{ route('prodi') }}">@lang('Program Studi')</a></li>
                     <li><a href="{{ route('tahunajaran') }}">@lang('Tahun Ajaran')</a></li>
+                    <li><a href="{{ route('matakuliah') }}">@lang('Mata Kuliah')</a></li>
+                    <li><a href="{{ route('dosen') }}">@lang('Dosen')</a></li>
                 </ul>
             </li>
             <li class="nav-item">

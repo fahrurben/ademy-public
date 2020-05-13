@@ -24,6 +24,11 @@ class Constant
     const TAHUN_START = 2010;
     const TAHUN_END = 2030;
 
+    const COMMON_STATUS_TYPE = [
+        0 => 'In Aktif',
+        1 => 'Aktif',
+    ];
+
     const STATUS_TYPE = [
       0 => 'In Aktif',
       1 => 'Aktif',
@@ -47,4 +52,10 @@ class Constant
         '4' => 'Profesor',
     ];
 
+    const SEMESTER_MAX = 20;
+
+    const MATAKULIAH_TYPE = [
+        0 => 'In Aktif',
+        1 => 'Aktif',
+    ];
 }
