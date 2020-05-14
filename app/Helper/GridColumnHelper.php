@@ -18,6 +18,7 @@ use Nayjest\Grids\Components\HtmlTag;
 use Nayjest\Grids\Components\OneCellRow;
 use Nayjest\Grids\Components\RecordsPerPage;
 use Nayjest\Grids\Components\THead;
+use Nayjest\Grids\IdFieldConfig;
 
 class GridColumnHelper
 {
@@ -74,8 +75,6 @@ class GridColumnHelper
 
     public static function generateNumberingViewColumn()
     {
-        return (new FieldConfig())
-            ->setName('id')
-            ->setLabel('#');
+        return new NumberFieldConfig();
     }
 }
