@@ -78,6 +78,24 @@
   .btn-primary {
     margin-left: 6px;
   }
+
+  .details-row {
+    padding: 5px 0px;
+    &:first-child {
+      margin-top: -13px;
+    }
+    &:nth-of-type(odd){
+      background-color: #f9f9f9;
+    }
+  }
+
+  label {
+    color: #8c8c8c;
+  }
+
+  .text-danger {
+    color: #bd362f !important;
+  }
 }
 
 .page-header {

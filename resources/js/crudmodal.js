@@ -78,9 +78,16 @@ $( document ).ready(function() {
         $(this).find('button[type="submit"]').prop("disabled", true);
         $(this).find('button[type="submit"]').html(spinnerButtonContent);
         var formEl = $(this);
+
+        // Clear error feedback
+        $('.ajax-form input, .ajax-form select').each(function( index ) {
+            $(this).removeClass('is-invalid');
+            $(this).closest('div').find('.invalid-feedback').html('');
+        });
+
         axios.post($formUrl, formData)
             .then(res => {
-                $('.modalForm').modal('hide');
+                $('.modal-form').modal('hide');
                 $.pjax.reload('#gridWrapper');
                 toastr.success('Data berhasil disimpan', 'Sukses');
             })

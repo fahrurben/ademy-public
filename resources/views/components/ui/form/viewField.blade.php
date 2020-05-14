@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row details-row">
     <label class="col-sm-3">
         {{$label}}
     </label>
