@@ -114,8 +114,7 @@ class MahasiswaController extends Controller
                         ->setLabel('Action')
                         ->setCallback(function ($val) {
                             if ($val) {
-                                $buttons ='<a href="'.route('mahasiswa.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
-                                $buttons .=' <a href="'.route('mahasiswa.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
+                                $buttons ='<a href="'.route('mahasiswa.view', ['id' => $val]).'" target="_blank" class="btn btn-xs btn-primary"><i class="far fa-file-alt"></i> Manage</a>';
                                 $buttons .=' <a href="'.route('mahasiswa.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
                                 return $buttons;
                             }

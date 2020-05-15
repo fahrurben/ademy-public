@@ -157,3 +157,75 @@
 #toastSuccess {
   display:none;
 }
+
+.details-view {
+
+  .details-header {
+    display: flex;
+    padding: 0px 10px 20px 10px;
+
+    .photo-wrapper {
+      flex: 0 0 80px;
+
+      .photo {
+        height: 80px;
+        width: 80px;
+        border-radius: 40px;
+      }
+
+      .upload {
+        display: block;
+        width: 100%;
+        margin-top: 8px;
+      }
+    }
+
+    .title-wrapper {
+      margin-left: 15px;
+      flex: 1 0;
+    }
+  }
+
+  .tab-content {
+    background-color: #ffffff;
+    padding: 15px 10px;
+
+    .details-section {
+
+      .details-panel {
+        height: 40px;
+        line-height: 40px;
+        background-color: #ffc658;
+        color: #ffffff;
+        padding: 0px 10px;
+        font-size: 16px;
+        font-weight: bold;
+
+        .btn {
+          float: right;
+          margin-top: 5px;
+        }
+      }
+
+      .details-section-content {
+
+        .details-row {
+          padding: 5px 0px;
+          &:first-child {
+
+          }
+          &:nth-of-type(odd){
+            background-color: #f9f9f9;
+          }
+        }
+
+        label {
+          color: #8c8c8c;
+        }
+      }
+    }
+
+  }
+
+
+}
