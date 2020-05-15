@@ -53,6 +53,27 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="details-section">
+                            <div class="details-panel">
+                                Alamat
+                                <a href="{{ route('mahasiswa.updateAlamat', ['id' => $mahasiswa->getId()]) }}"  class="btn btn-default btn-sm showEditModal">Edit</a>
+                            </div>
+
+                            <div class="col-md-12">
+
+                                <div class="details-section-content">
+                                    {{ Form::viewField('Alamat', $alamat->getAlamat()) }}
+                                    {{ Form::viewField('Provinsi', $alamat->getProvinsiName()) }}
+                                    {{ Form::viewField('Kota', $alamat->getKotaName()) }}
+                                    {{ Form::viewField('Kode Pos', $alamat->getKodePos()) }}
+                                    {{ Form::viewField('Telepon', $alamat->getTelepon()) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <!-- Profile End -->

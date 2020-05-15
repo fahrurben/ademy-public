@@ -90,6 +90,12 @@ class Mahasiswa
     protected $foto;
 
     /**
+     * @ORM\OneToOne(targetEntity="\Domain\Mahasiswa\Alamat", cascade={"persist", "merge","remove"})
+     * @ORM\JoinColumn(name="alamat_id", referencedColumnName="id")
+     */
+    protected $alamat;
+
+    /**
      * @ORM\Column(name="status", type="integer")
      */
     protected $status;
@@ -288,6 +294,22 @@ class Mahasiswa
     public function setFoto($foto): void
     {
         $this->foto = $foto;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAlamat()
+    {
+        return $this->alamat;
+    }
+
+    /**
+     * @param mixed $alamat
+     */
+    public function setAlamat($alamat): void
+    {
+        $this->alamat = $alamat;
     }
 
     /**

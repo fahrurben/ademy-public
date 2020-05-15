@@ -10,10 +10,13 @@ namespace App\Http\Controllers\Mahasiswa;
 
 use App\Constant;
 use App\Helper\FormHelper;
+use App\Helper\RegionLookupHelper;
 use App\Http\Controllers\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Domain\Institusi\Services\ProdiService;
 use Domain\Institusi\Services\TahunAjaranService;
+use Domain\Mahasiswa\Alamat;
+use Domain\Mahasiswa\DTOs\AlamatDTO;
 use Domain\Mahasiswa\DTOs\MahasiswaDTO;
 use Domain\Mahasiswa\Services\MahasiswaService;
 use Illuminate\Http\Request;
@@ -207,10 +210,51 @@ class MahasiswaController extends Controller
     public function view($id)
     {
         $mahasiswa = $this->mahasiswaService->find($id);
+        $alamat = $mahasiswa->getAlamat() ?? new Alamat();
 
-        return view('page.mahasiswa.mahasiswa.view', compact('mahasiswa'));
+        return view('page.mahasiswa.mahasiswa.view', compact('mahasiswa', 'alamat'));
     }
 
+    public function updateAlamat($id, Request $request)
+    {
+        $mahasiswa = $this->mahasiswaService->find($id);
+        $alamat = $mahasiswa->getAlamat() ?? new Alamat();
+
+        $provinsiOptions = collect(RegionLookupHelper::PROVINCE)->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        })->prepend(__('- Select Provinsi -'), '');
+
+        $kotaOptions = collect(RegionLookupHelper::CITY)->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['name']];
+        })->prepend(__('- Select Kota -'), '');
+
+        if ($request->isMethod('get')) {
+            return view('page.mahasiswa.mahasiswa.updateAlamat', compact('provinsiOptions', 'kotaOptions', 'mahasiswa', 'alamat'));
+        } else {
+            $validator = $this->mahasiswaService->updateAlamatValidation($request->all(), $id);
+
+            if ($validator->fails()) {
+                return response()->json(
+                    $validator->messages(), 500
+                );
+            } else {
+                try {
+                    $alamat = new AlamatDTO();
+                    $alamat->setAttributesFromRequestArray($request->all());
+
+                    $this->mahasiswaService->updateAlamat($id, $alamat);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        ['message' => $e->getMessage()], 500
+                    );
+                }
+
+                return response()->json(
+                    ['success' => true]
+                );
+            }
+        }
+    }
 
     public function delete($id)
     {

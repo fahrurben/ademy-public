@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManager;
 use Domain\BaseService;
 use Domain\Institusi\Prodi;
 use Domain\Institusi\TahunAjaran;
+use Domain\Mahasiswa\Alamat;
 use Domain\Mahasiswa\Mahasiswa;
 use Illuminate\Support\Facades\Validator;
 
@@ -89,6 +90,18 @@ class MahasiswaService extends BaseService
         return Validator::make($mahasiswaArray, $updateValidationRules);
     }
 
+    public function updateAlamatValidation($alamatArray)
+    {
+        $updateAlamatValidationRules = [
+            'alamat' => 'required',
+            'kota' => 'required',
+            'provinsi' => 'required',
+            'telepon' => 'required',
+        ];
+
+        return Validator::make($alamatArray, $updateAlamatValidationRules);
+    }
+
     public function create($mhsObject)
     {
         $prodiEntity = $this->prodiRepository->find($mhsObject->prodiId);
@@ -138,6 +151,23 @@ class MahasiswaService extends BaseService
         $mhsEntity->setTahunAjaranMasuk($tahunAjaranEntity);
         $mhsEntity->setSemester($mhsObject->semester);
         $mhsEntity->setStatus(Constant::STATUS_AKTIF);
+
+        $this->entityManager->merge($mhsEntity);
+        $this->entityManager->flush();
+    }
+
+    public function updateAlamat($id, $alamatObject)
+    {
+        $mhsEntity = $this->mahasiswaRepository->find($id);
+
+        $alamatEntity = $mhsEntity->getAlamat() ?? new Alamat();
+        $alamatEntity->setAlamat($alamatObject->alamat);
+        $alamatEntity->setKota($alamatObject->kota);
+        $alamatEntity->setProvinsi($alamatObject->provinsi);
+        $alamatEntity->setKodePos($alamatObject->kodePos);
+        $alamatEntity->setTelepon($alamatObject->telepon);
+
+        $mhsEntity->setAlamat($alamatEntity);
 
         $this->entityManager->merge($mhsEntity);
         $this->entityManager->flush();

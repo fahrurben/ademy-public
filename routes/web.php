@@ -70,5 +70,6 @@ Route::group(['middleware' => ['can:manage-mahasiswa']], function () {
     Route::post('/mahasiswa/update/{id}', 'Mahasiswa\MahasiswaController@update')->name('mahasiswa.update');
     Route::get('/mahasiswa/view/{id}', 'Mahasiswa\MahasiswaController@view')->name('mahasiswa.view');
     Route::get('/mahasiswa/delete/{id}', 'Mahasiswa\MahasiswaController@delete')->name('mahasiswa.delete');
-
+    Route::get('/mahasiswa/update-alamat/{id}', 'Mahasiswa\MahasiswaController@updateAlamat')->name('mahasiswa.updateAlamat');
+    Route::post('/mahasiswa/update-alamat/{id}', 'Mahasiswa\MahasiswaController@updateAlamat')->name('mahasiswa.updateAlamat');
 });
