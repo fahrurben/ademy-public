@@ -11,10 +11,13 @@ namespace App\Helper;
 
 class FormHelper
 {
-    public static function arrayObjToOptionArray($arrObject, $default_option, $field = 'nama', \Closure $customReturn = null)
+    public static function arrayObjToOptionArray($arrObject, $default_option = null, $field = 'nama', \Closure $customReturn = null)
     {
         $arrOption = [];
-        $arrOption[''] = $default_option;
+
+        if (isset($default_option)) {
+            $arrOption[''] = $default_option;
+        }
 
         $fieldCapitalize = ucwords($field);
         foreach ($arrObject as $item) {

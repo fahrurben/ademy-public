@@ -62,7 +62,70 @@ class KelasTAController extends Controller
     public function index($id)
     {
         $tahunAjaran = $this->tahunAjaranService->find($id);
-        return view('page.tahunajaran.kelasta.index', compact('tahunAjaran'));
+        $tahunAjaranOptions = $this->tahunAjaranService->findBy([], ['tahunAwal' => 'DESC', 'tipe' => 'ASC']);
+
+        $getKelasQuery = $this->kelasTAService->getKelasGridQuery($id);
+
+        // Initialize prodi filter options
+        $arrProdiObj = $this->prodiService->findBy([], ['nama' => 'ASC']);
+        $prodiOptions = FormHelper::arrayObjToOptionArray($arrProdiObj);
+
+        $arrMatkulObj = $this->mataKuliahService->findBy([], ['nama' => 'ASC']);
+        $matkulOptions = FormHelper::arrayObjToOptionArray($arrMatkulObj);
+
+        $arrDosenObj = $this->dosenService->findBy([], ['namaLengkap' => 'ASC']);
+        $dosenOptions = FormHelper::arrayObjToOptionArray($arrDosenObj, null, 'namaLengkap');
+
+        $gridConfig = (new GridConfig())
+            ->setName('pageGrid')
+            ->setDataProvider(new DbalDataProvider($getKelasQuery))
+            ->setColumns([
+                GridColumnHelper::generateNumberingViewColumn(),
+                (new FieldConfig)
+                    ->setName('prodi')
+                    ->setLabel('Prodi')
+                    ->addFilter(
+                        (new SelectFilterConfig)
+                            ->setOperator(FilterConfig::OPERATOR_EQ)
+                            ->setName('p.id')
+                            ->setOptions($prodiOptions)
+                    )
+                    ->setSortable(true),
+                (new FieldConfig)
+                    ->setName('matakuliah')
+                    ->setLabel('Mata Kuliah')
+                    ->addFilter(
+                        (new SelectFilterConfig)
+                            ->setOperator(FilterConfig::OPERATOR_EQ)
+                            ->setName('m.id')
+                            ->setOptions($matkulOptions)
+                    )
+                    ->setSortable(true),
+                (new FieldConfig)
+                    ->setName('dosen')
+                    ->setLabel('Dosen')
+                    ->addFilter(
+                        (new SelectFilterConfig)
+                            ->setOperator(FilterConfig::OPERATOR_EQ)
+                            ->setName('d.id')
+                            ->setOptions($dosenOptions)
+                    )
+                    ->setSortable(true),
+                (new FieldConfig())
+                    ->setName('id')
+                    ->setLabel('Action')
+                    ->setCallback(function ($val) {
+                        if ($val) {
+//                            $buttons ='<a href="'.route('mahasiswa.view', ['id' => $val]).'" target="_blank" class="btn btn-xs btn-primary"><i class="far fa-file-alt"></i> Manage</a>';
+//                            $buttons .=' <a href="'.route('mahasiswa.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
+//                            return $buttons;
+                        }
+                    })
+            ]);
+        GridColumnHelper::generateFilterSortingHeader($gridConfig);
+        $grid = new Grid($gridConfig);
+
+        return view('page.tahunajaran.kelasta.index', compact('tahunAjaranOptions', 'tahunAjaran', 'grid'));
     }
 
     public function create($id, Request $request)

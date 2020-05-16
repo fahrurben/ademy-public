@@ -49,6 +49,24 @@ class KelasTAService extends BaseService
         parent::__construct($entityManager, $this->kelasTARepository);
     }
 
+    public function getKelasGridQuery($taId)
+    {
+        $query = $this->entityManager->getConnection()->createQueryBuilder();
+        $query->select('k.id', 'k.nama', 'k.prodi_id', 'p.nama as prodi', 'matkul_id', 'm.nama as matakuliah',
+                'dosen_id', 'd.nama_lengkap as dosen'
+            )
+            ->innerJoin('k', 'prodi', 'p', 'k.prodi_id = p.id')
+            ->innerJoin('k', 'tahun_ajaran', 't', 'k.ta_id = t.id')
+            ->innerJoin('k', 'mata_kuliah', 'm', 'k.matkul_id = m.id')
+            ->innerJoin('k', 'dosen', 'd', 'k.dosen_id = d.id')
+            ->from('kelas_ta', 'k')
+            ->where('k.deleted_at is NULL')
+            ->andWhere('k.ta_id = :taId')
+            ->setParameter('taId', $taId);
+
+        return $query;
+    }
+
     public function createValidation($entityObject)
     {
         $this->validationObjectToArray($arrData, $entityObject);
