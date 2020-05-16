@@ -5,7 +5,11 @@
         <div class="col-md-12">
             @php
                     @endphp
-            {{ Form::open(['url' => route('mahasiswa.update', ['id' => $mahasiswa->getId()]), 'class' => 'ajax-form']) }}
+            {{ Form::open([
+                'url' => route('mahasiswa.update', ['id' => $mahasiswa->getId()]),
+                'data-pjax-target' => 'section-profil',
+                'class' => 'ajax-form'])
+            }}
             {{ Form::textInput('nim', $mahasiswa->getNim(), 'Nim',
                 ['required' => true], $errors->first('nim'))
             }}

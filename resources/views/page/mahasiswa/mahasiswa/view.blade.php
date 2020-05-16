@@ -26,7 +26,7 @@
             <div role="tabpanel" class="tab-pane active clearfix" id="profile">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="details-section">
+                        <div id="section-profil" class="details-section">
                             @php
                                 $tahunAjaranMasuk = $mahasiswa->getTahunAjaranMasuk();
                                 $tahunAjaranString = ($tahunAjaranMasuk->getTipe() == 1 ? 'Ganjil' : 'Genap') .' : '.$tahunAjaranMasuk->getTahunAwal().' - '.$tahunAjaranMasuk->getTahunAkhir()
