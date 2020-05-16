@@ -66,7 +66,7 @@ class BaseService
     }
 
     // To convert object to array when using laravel validator
-    protected function validationObjectToArray($arrData, $entityObject)
+    protected function validationObjectToArray(&$arrData, $entityObject)
     {
         $arrData = $entityObject;
         if (is_object($entityObject)) {

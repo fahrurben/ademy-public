@@ -65,6 +65,10 @@ Route::group(['middleware' => ['can:manage-universitas']], function () {
     Route::post('/matakuliah/update/{id}', 'Institusi\MataKuliahController@update')->name('matakuliah.update');
     Route::get('/matakuliah/view/{id}', 'Institusi\MataKuliahController@view')->name('matakuliah.view');
     Route::get('/matakuliah/delete/{id}', 'Institusi\MataKuliahController@delete')->name('matakuliah.delete');
+
+    Route::get('/kelasta/{id}', 'TahunAjaran\KelasTAController@index')->name('kelasta');
+    Route::get('/kelasta/create/{id}', 'TahunAjaran\KelasTAController@create')->name('kelasta.create');
+    Route::post('/kelasta/create/{id}', 'TahunAjaran\KelasTAController@create')->name('kelasta.create');
 });
 
 Route::group(['middleware' => ['can:manage-mahasiswa']], function () {
