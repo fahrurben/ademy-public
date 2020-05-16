@@ -72,6 +72,7 @@ Route::group(['middleware' => ['can:manage-universitas']], function () {
     Route::get('/kelasta/update/{id}', 'TahunAjaran\KelasTAController@update')->name('kelasta.update');
     Route::post('/kelasta/update/{id}', 'TahunAjaran\KelasTAController@update')->name('kelasta.update');
     Route::get('/kelasta/view/{id}', 'TahunAjaran\KelasTAController@view')->name('kelasta.view');
+    Route::get('/kelasta/delete/{id}', 'TahunAjaran\KelasTAController@delete')->name('kelasta.delete');
 });
 
 Route::group(['middleware' => ['can:manage-mahasiswa']], function () {
