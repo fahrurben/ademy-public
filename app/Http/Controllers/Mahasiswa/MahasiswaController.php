@@ -136,7 +136,9 @@ class MahasiswaController extends Controller
 
         $arrTahunAjaranObj = $this->tahunAjaranService->findBy([], ['tahunAwal' => 'ASC']);
         $arrTahunAjaranOptions = FormHelper::arrayObjToOptionArray($arrTahunAjaranObj, __('- Pilih Tahun Ajaran -'), null,
-            fn($obj) => ($obj->getTipe() == 1 ? 'Ganjil' : 'Genap').' : '.$obj->getTahunAwal().' - '.$obj->getTahunAkhir());
+            function ($obj) {
+                return ($obj->getTipe() == 1 ? 'Ganjil' : 'Genap').' : '.$obj->getTahunAwal().' - '.$obj->getTahunAkhir();
+            });
 
         if ($request->isMethod('get')) {
             return view('page.mahasiswa.mahasiswa.create', compact('arrProdiOptions', 'arrTahunAjaranOptions'));
@@ -176,7 +178,9 @@ class MahasiswaController extends Controller
 
         $arrTahunAjaranObj = $this->tahunAjaranService->findBy([], ['tahunAwal' => 'ASC']);
         $arrTahunAjaranOptions = FormHelper::arrayObjToOptionArray($arrTahunAjaranObj, __('- Pilih Tahun Ajaran -'), null,
-            fn($obj) => ($obj->getTipe() == 1 ? 'Ganjil' : 'Genap').' : '.$obj->getTahunAwal().' - '.$obj->getTahunAkhir());
+            function ($obj) {
+                return ($obj->getTipe() == 1 ? 'Ganjil' : 'Genap').' : '.$obj->getTahunAwal().' - '.$obj->getTahunAkhir();
+            });
 
         if ($request->isMethod('get')) {
             return view('page.mahasiswa.mahasiswa.update', compact('arrProdiOptions', 'arrTahunAjaranOptions', 'mahasiswa'));
