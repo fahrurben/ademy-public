@@ -111,9 +111,9 @@ class MataKuliahController extends Controller
                     ->setCallback(function ($val) {
                         if ($val) {
 //                            $buttons ='<a href="'.route('mahasiswa.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
-//                            $buttons .=' <a href="'.route('mahasiswa.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
+                            $buttons =' <a href="'.route('matakuliah.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
 //                            $buttons .=' <a href="'.route('mahasiswa.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
-//                            return $buttons;
+                            return $buttons;
                         }
                     })
             ]);
@@ -157,6 +157,51 @@ class MataKuliahController extends Controller
                     ['success' => true]
                 );
             }
+        }
+    }
+
+    public function update($id, Request $request)
+    {
+        $mataKuliah = $this->mataKuliahService->find($id);
+
+        $arrProdiObj = $this->prodiService->findBy([], ['nama' => 'ASC']);
+        $arrProdiOptions = FormHelper::arrayObjToOptionArray($arrProdiObj, __('- Pilih Prodi -'));
+
+        $arrTipeOptions = ['' => __('- Pilih Tipe -')] + Constant::MATAKULIAH_TYPE;
+        $arrStatusOptions = ['' => __('- Pilih Status -')] + Constant::COMMON_STATUS_TYPE;
+
+        if ($request->isMethod('get')) {
+            return view('page.institusi.matakuliah.update', compact(
+                'arrProdiOptions',
+                'arrTipeOptions',
+                'arrStatusOptions',
+                'mataKuliah'
+            ));
+        } else {
+            try {
+                $requestData = $request->all();
+                $requestData['id'] = $id;
+                $validator = $this->mataKuliahService->updateValidation($requestData, $id);
+
+                if ($validator->fails()) {
+                    return response()->json(
+                        $validator->messages(), 500
+                    );
+                } else {
+                    $mataKuliah = new MataKuliahDTO();
+                    $mataKuliah->setAttributesFromRequestArray($request->all());
+
+                    $this->mataKuliahService->update($mataKuliah, $id);
+                }
+            } catch (\Exception $e) {
+                return response()->json(
+                    ['message' => $e->getMessage()], 500
+                );
+            }
+
+            return response()->json(
+                ['success' => true]
+            );
         }
     }
 }

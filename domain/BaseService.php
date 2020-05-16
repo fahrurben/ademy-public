@@ -64,4 +64,13 @@ class BaseService
         $this->entityManager->remove($entity);
         $this->entityManager->flush();
     }
+
+    // To convert object to array when using laravel validator
+    protected function validationObjectToArray($arrData, $entityObject)
+    {
+        $arrData = $entityObject;
+        if (is_object($entityObject)) {
+            $arrData = (array) $entityObject;
+        }
+    }
 }

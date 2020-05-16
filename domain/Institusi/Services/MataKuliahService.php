@@ -50,9 +50,21 @@ class MataKuliahService extends BaseService
             + self::COMMON_VALIDATION_RULES;
 
         $arrData = $entityObject;
-        if (is_object($entityObject)) {
-            $arrData = (array) $entityObject;
-        }
+        $this->validationObjectToArray($arrData, $entityObject);
+        return Validator::make($arrData, $createValidationRules);
+    }
+
+    public function updateValidation($entityObject, $id)
+    {
+        $createValidationRules =
+            [
+                'nama' => 'required|unique:\Domain\Institusi\MataKuliah,nama,' . $id . ',id,deletedAt,NULL',
+                'kode' => 'required|unique:\Domain\Institusi\MataKuliah,kode,' . $id . ',id,deletedAt,NULL',
+            ]
+            + self::COMMON_VALIDATION_RULES;
+
+        $arrData = $entityObject;
+        $this->validationObjectToArray($arrData, $entityObject);
         return Validator::make($arrData, $createValidationRules);
     }
 
@@ -82,6 +94,28 @@ class MataKuliahService extends BaseService
         $matkulEntitity->setDeskripsi($matkulObject->deskripsi);
 
         $matkulEntitity->setStatus(Constant::STATUS_AKTIF);
+
+        $this->entityManager->persist($matkulEntitity);
+        $this->entityManager->flush();
+    }
+
+    public function update($matkulObject, $id)
+    {
+        $prodiEntity = $this->prodiRepository->find($matkulObject->prodiId);
+        if (!isset($prodiEntity)) throw new EntityNotFoundException('Data Prodi tidak ada');
+
+        $matkulEntitity = $this->mataKuliahRepository->find($id);
+        if (!isset($matkulEntitity)) throw new EntityNotFoundException('Mata kuliah tidak ada');
+
+        $matkulEntitity->setNama($matkulObject->nama);
+        $matkulEntitity->setKode($matkulObject->kode);
+        $matkulEntitity->setTipe($matkulObject->tipe);
+        $matkulEntitity->setProdi($prodiEntity);
+        $matkulEntitity->setBobot($matkulObject->bobot);
+        $matkulEntitity->setSemester($matkulObject->semester);
+        $matkulEntitity->setDeskripsi($matkulObject->deskripsi);
+
+        $matkulEntitity->setStatus($matkulObject->status);
 
         $this->entityManager->persist($matkulEntitity);
         $this->entityManager->flush();
