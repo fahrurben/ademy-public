@@ -79,6 +79,7 @@ $( document ).ready(function() {
         $(this).find('button[type="submit"]').html(spinnerButtonContent);
         var formEl = $(this);
 
+        var pjaxTarget = $(this).attr('data-pjax-target') ? '#' + $(this).attr('data-pjax-target') : '#gridWrapper';
         // Clear error feedback
         $('.ajax-form input, .ajax-form select').each(function( index ) {
             $(this).removeClass('is-invalid');
@@ -88,7 +89,7 @@ $( document ).ready(function() {
         axios.post($formUrl, formData)
             .then(res => {
                 $('.modal-form').modal('hide');
-                $.pjax.reload('#gridWrapper');
+                $.pjax.reload(pjaxTarget);
                 toastr.success('Data berhasil disimpan', 'Sukses');
             })
             .catch(err => {

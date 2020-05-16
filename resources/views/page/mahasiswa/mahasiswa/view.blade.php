@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div id="section-alamat" class="row">
                         <div class="details-section">
                             <div class="details-panel">
                                 Alamat

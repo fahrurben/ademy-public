@@ -3,15 +3,20 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            {{ Form::open(['url' => route('mahasiswa.updateAlamat', ['id' => $mahasiswa->getId()]), 'class' => 'ajax-form']) }}
+            {{ Form::open([
+                'id' => 'formUpdateAlamat',
+                'url' => route('mahasiswa.updateAlamat', ['id' => $mahasiswa->getId()]),
+                'data-pjax-target' => 'section-alamat',
+                'class' => 'ajax-form'])
+            }}
             {{ Form::textInput('alamat', $alamat->getAlamat(), 'Alamat',
                 ['required' => true], $errors->first('alamat'))
             }}
             {{ Form::selectBox('provinsi', $provinsiOptions,
-                $alamat->getProvinsi(), 'Provinse', ['required' => true], $errors->first('provinsi'))
+                $alamat->getProvinsi(), 'Provinsi', ['id' => 'selectProvinsi', 'required' => true], $errors->first('provinsi'))
             }}
             {{ Form::selectBox('kota', $kotaOptions,
-                $alamat->getKota(), 'Kota', ['required' => true], $errors->first('kota'))
+                $alamat->getKota(), 'Kota', ['id' => 'selectKota', 'required' => true], $errors->first('kota'))
             }}
             {{ Form::textInput('kodePos', $alamat->getKodePos(), 'Kode Pos',
                 [], $errors->first('kodePos'))

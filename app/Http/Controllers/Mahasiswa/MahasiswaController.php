@@ -219,14 +219,21 @@ class MahasiswaController extends Controller
     {
         $mahasiswa = $this->mahasiswaService->find($id);
         $alamat = $mahasiswa->getAlamat() ?? new Alamat();
+        $provinsiId = (string) $alamat->getProvinsi();
 
         $provinsiOptions = collect(RegionLookupHelper::PROVINCE)->mapWithKeys(function ($item) {
             return [$item['id'] => $item['name']];
-        })->prepend(__('- Select Provinsi -'), '');
+        })->prepend(__('- Pilih Provinsi -'), '');
 
-        $kotaOptions = collect(RegionLookupHelper::CITY)->mapWithKeys(function ($item) {
-            return [$item['id'] => $item['name']];
-        })->prepend(__('- Select Kota -'), '');
+        $kotaOptions = collect(RegionLookupHelper::CITY)
+            ->filter(function ($item) use ($provinsiId) {
+                if (empty($provinsiId)) return true;
+                return strpos($item['id'], $provinsiId) === 0;
+            })
+            ->mapWithKeys(function ($item) {
+                return [$item['id'] => $item['name']];
+            })
+            ->prepend(__('- Pilih Kota -'), '');
 
         if ($request->isMethod('get')) {
             return view('page.mahasiswa.mahasiswa.updateAlamat', compact('provinsiOptions', 'kotaOptions', 'mahasiswa', 'alamat'));

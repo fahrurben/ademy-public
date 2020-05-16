@@ -20,6 +20,8 @@ Route::get('/logout', 'AuthenticationController@logout')->name('logout');
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
 Route::post('/', 'HomeController@index')->name('home')->middleware('auth');
 
+Route::get('/lookup/kota', 'Common\LookupController@getAllKota')->name('getAllKota')->middleware('auth');
+
 Route::group(['middleware' => ['can:manage-universitas']], function () {
 
     Route::get('/fakultas', 'Institusi\FakultasController@index')->name('fakultas');
