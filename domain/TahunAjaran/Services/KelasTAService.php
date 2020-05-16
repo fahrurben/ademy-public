@@ -73,7 +73,13 @@ class KelasTAService extends BaseService
         return Validator::make($arrData, self::COMMON_VALIDATION_RULES);
     }
 
-    public function checkDuplicate($kelasTAObject)
+    public function updateValidation($entityObject)
+    {
+        $this->validationObjectToArray($arrData, $entityObject);
+        return Validator::make($arrData, self::COMMON_VALIDATION_RULES);
+    }
+
+    public function checkDuplicate($kelasTAObject, $id = null)
     {
         $query = $this->kelasTARepository->createQueryBuilder('k')
             ->join('k.tahunAjaran', 'ta')
@@ -84,9 +90,14 @@ class KelasTAService extends BaseService
             ->andWhere('m.id = :matkulId')
             ->setParameter('taId', $kelasTAObject->taId)
             ->setParameter('prodiId', $kelasTAObject->prodiId)
-            ->setParameter('matkulId', $kelasTAObject->matkulId)
-            ->getQuery();
+            ->setParameter('matkulId', $kelasTAObject->matkulId);
 
+        if (isset($id)) {
+            $query->andWhere('k.id != :id')
+                ->setParameter('id', $id);
+        }
+
+        $query = $query->getQuery();
         return $query->getOneOrNullResult();
     }
 
@@ -111,6 +122,40 @@ class KelasTAService extends BaseService
         }
 
         $kelasEntity = new KelasTA();
+        $kelasEntity->setNama($mataKuliahEntity->getNama());
+        $kelasEntity->setTahunAjaran($tahunAjaranEntity);
+        $kelasEntity->setProdi($prodiEntity);
+        $kelasEntity->setMataKuliah($mataKuliahEntity);
+        $kelasEntity->setDosen($dosenEntity);
+        $kelasEntity->setAsisten($asistenEntity);
+
+        $this->entityManager->persist($kelasEntity);
+        $this->entityManager->flush();
+    }
+
+    public function update($kelasObject, $id)
+    {
+        $prodiEntity = $this->prodiRepository->find($kelasObject->prodiId);
+        if (!isset($prodiEntity)) throw new EntityNotFoundException('Data Prodi tidak ada');
+
+        $tahunAjaranEntity = $this->tahunAjaranRepository->find($kelasObject->taId);
+        if (!isset($tahunAjaranEntity)) throw new EntityNotFoundException('Tahun ajaran tidak ada');
+
+        $mataKuliahEntity = $this->matkulRepository->find($kelasObject->matkulId);
+        if (!isset($mataKuliahEntity)) throw new EntityNotFoundException('Mata kuliah tidak ada');
+
+        $dosenEntity = $this->dosenRepository->find($kelasObject->dosenId);
+        if (!isset($dosenEntity)) throw new EntityNotFoundException('Dosen tidak ada');
+
+        $asistenEntity = null;
+        if (isset($kelasObject->asistenId)) {
+            $asistenEntity = $this->dosenRepository->find($kelasObject->asistenId);
+            if (!isset($asistenEntity)) throw new EntityNotFoundException('Dosen tidak ada');
+        }
+
+        $kelasEntity = $this->kelasTARepository->find($id);
+        if (!isset($kelasEntity)) throw new EntityNotFoundException('Data Kelas Tahun Ajaran tidak ada');
+
         $kelasEntity->setNama($mataKuliahEntity->getNama());
         $kelasEntity->setTahunAjaran($tahunAjaranEntity);
         $kelasEntity->setProdi($prodiEntity);

@@ -116,9 +116,10 @@ class KelasTAController extends Controller
                     ->setLabel('Action')
                     ->setCallback(function ($val) {
                         if ($val) {
-//                            $buttons ='<a href="'.route('mahasiswa.view', ['id' => $val]).'" target="_blank" class="btn btn-xs btn-primary"><i class="far fa-file-alt"></i> Manage</a>';
+                            $buttons ='<a href="'.route('kelasta.view', ['id' => $val]).'" class="btn btn-xs btn-primary showViewModal"><i class="far fa-file-alt"></i> View</a>';
+                            $buttons .=' <a href="'.route('kelasta.update', ['id' => $val]).'"  class="btn btn-xs btn-primary showEditModal"><i class="fas fa-edit"></i> Update</a>';
 //                            $buttons .=' <a href="'.route('mahasiswa.delete', ['id' => $val]).'" class="btn btn-xs btn-primary showDeleteModal"><i class="fas fa-trash"></i> Delete</a>';
-//                            return $buttons;
+                            return $buttons;
                         }
                     })
             ]);
@@ -181,5 +182,70 @@ class KelasTAController extends Controller
                 );
             }
         }
+    }
+
+    public function update($id, Request $request)
+    {
+        $kelas = $this->kelasTAService->find($id);
+        $tahunAjaran = $kelas->getTahunAjaran();
+
+        $arrProdiObj = $this->prodiService->findBy([], ['nama' => 'ASC']);
+        $arrProdiOptions = FormHelper::arrayObjToOptionArray($arrProdiObj, __('- Pilih Prodi -'));
+
+        $arrMataKuliahObj = $this->mataKuliahService->findBy([], ['nama' => 'ASC']);
+        $arrMataKuliahOptions = FormHelper::arrayObjToOptionArray($arrMataKuliahObj, __('- Pilih Mata Kuliah -'));
+
+        $arrDosenObj = $this->dosenService->findBy([], ['namaLengkap' => 'ASC']);
+        $arrDosenOptions = FormHelper::arrayObjToOptionArray($arrDosenObj, __('- Pilih Dosen -'), 'namaLengkap');
+
+        if ($request->isMethod('get')) {
+            return view('page.tahunajaran.kelasta.update', compact(
+                'kelas',
+                'tahunAjaran',
+                'arrProdiOptions',
+                'arrMataKuliahOptions',
+                'arrDosenOptions',
+            ));
+        } else {
+            $kelas = new KelasTADTO();
+            $kelas->setAttributesFromRequestArray($request->all());
+            $kelas->taId = $id;
+
+            $validator = $this->kelasTAService->updateValidation($kelas);
+            if ($validator->fails()) {
+                return response()->json(
+                    $validator->messages(), 500
+                );
+            } else {
+                try {
+                    $isDuplicate = $this->kelasTAService->checkDuplicate($kelas, $id);
+
+                    if ($isDuplicate) {
+                        return response()->json(
+                            ['message' => 'Data kelas sudah ada, duplikasi data tidak diperbolehkan'], 500
+                        );
+                    }
+
+                    $this->kelasTAService->update($kelas, $id);
+
+                } catch (\Exception $e) {
+                    return response()->json(
+                        ['message' => $e->getMessage()], 500
+                    );
+                }
+
+                return response()->json(
+                    ['success' => true]
+                );
+            }
+        }
+    }
+
+    public function view($id)
+    {
+        $kelas = $this->kelasTAService->find($id);
+        $tahunAjaran = $kelas->getTahunAjaran();
+
+        return view('page.tahunajaran.kelasta.view', compact('kelas', 'tahunAjaran'));
     }
 }
