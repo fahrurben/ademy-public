@@ -23,7 +23,19 @@
             {{ Form::selectBox('tahunAkhir', $tahunAkhirOptions,
                 $tahunAjaran->getTahunAkhir(), 'Tahun Akhir', ['required' => true], $errors->first('tahunAkhir'))
             }}
-            {{ Form::selectBox('status', Constant::STATUS_TYPE,
+            {{ Form::datePicker('tanggalPendaftaranMulai', $tahunAjaran->getTanggalPendaftaranMulai()->format(Constant::LOCAL_DATE_FORMAT), 'Tanggal Pendaftaran Mulai',
+                ['required' => true], $errors->first('tanggalPendaftaranMulai'))
+            }}
+            {{ Form::datePicker('tanggalPendaftaranAkhir', $tahunAjaran->getTanggalPendaftaranAkhir()->format(Constant::LOCAL_DATE_FORMAT), 'Tanggal Pendaftaran Akhir',
+                ['required' => true], $errors->first('tanggalPendaftaranAkhir'))
+            }}
+            {{ Form::datePicker('tanggalAktif', $tahunAjaran->getTanggalAktif()->format(Constant::LOCAL_DATE_FORMAT), 'Tanggal Aktif',
+                ['required' => true], $errors->first('tanggalAktif'))
+            }}
+            {{ Form::datePicker('tanggalSelesai', $tahunAjaran->getTanggalSelesai()->format(Constant::LOCAL_DATE_FORMAT), 'Tanggal Selesai',
+                ['required' => true], $errors->first('tanggalSelesai'))
+            }}
+            {{ Form::selectBox('status', Constant::STATUS_TAHUN_AJARAN,
                 $tahunAjaran->getStatus(), 'Status', ['required' => true], $errors->first('status'))
             }}
             <div class="row">

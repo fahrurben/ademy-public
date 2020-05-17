@@ -47,6 +47,26 @@ class TahunAjaran
     protected $tahunAkhir;
 
     /**
+     * @ORM\Column(name="tanggal_pendaftaran_mulai", type="datetime")
+     */
+    protected $tanggalPendaftaranMulai;
+
+    /**
+     * @ORM\Column(name="tanggal_pendaftaran_akhir", type="datetime")
+     */
+    protected $tanggalPendaftaranAkhir;
+
+    /**
+     * @ORM\Column(name="tanggal_aktif", type="datetime")
+     */
+    protected $tanggalAktif;
+
+    /**
+     * @ORM\Column(name="tanggal_selesai", type="datetime")
+     */
+    protected $tanggalSelesai;
+
+    /**
      * @ORM\Column(type="integer")
      */
     protected $status;
@@ -127,6 +147,70 @@ class TahunAjaran
     /**
      * @return mixed
      */
+    public function getTanggalPendaftaranMulai()
+    {
+        return $this->tanggalPendaftaranMulai;
+    }
+
+    /**
+     * @param mixed $tanggalPendaftaranMulai
+     */
+    public function setTanggalPendaftaranMulai($tanggalPendaftaranMulai): void
+    {
+        $this->tanggalPendaftaranMulai = $tanggalPendaftaranMulai;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTanggalPendaftaranAkhir()
+    {
+        return $this->tanggalPendaftaranAkhir;
+    }
+
+    /**
+     * @param mixed $tanggalPendaftaranAkhir
+     */
+    public function setTanggalPendaftaranAkhir($tanggalPendaftaranAkhir): void
+    {
+        $this->tanggalPendaftaranAkhir = $tanggalPendaftaranAkhir;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTanggalAktif()
+    {
+        return $this->tanggalAktif;
+    }
+
+    /**
+     * @param mixed $tanggalAktif
+     */
+    public function setTanggalAktif($tanggalAktif): void
+    {
+        $this->tanggalAktif = $tanggalAktif;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTanggalSelesai()
+    {
+        return $this->tanggalSelesai;
+    }
+
+    /**
+     * @param mixed $tanggalSelesai
+     */
+    public function setTanggalSelesai($tanggalSelesai): void
+    {
+        $this->tanggalSelesai = $tanggalSelesai;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getStatus()
     {
         return $this->status;
@@ -142,6 +226,6 @@ class TahunAjaran
 
     public function getStatusString()
     {
-        return Constant::STATUS_TYPE[$this->status] ?? '';
+        return Constant::STATUS_TAHUN_AJARAN[$this->status] ?? '';
     }
 }

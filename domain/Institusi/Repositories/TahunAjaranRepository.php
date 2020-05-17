@@ -20,7 +20,8 @@ class TahunAjaranRepository extends EntityRepository implements BaseRepository
             ->from('\Domain\Institusi\TahunAjaran', 't')
             ->where('t.tipe = ?1')
             ->andWhere('t.tahunAwal = ?2')
-            ->andWhere('t.tahunAkhir = ?3');
+            ->andWhere('t.tahunAkhir = ?3')
+            ->andWhere('t.deletedAt is null');
 
         if (isset($id)) {
             $queryBuilder->andWhere('t.id != ?4');

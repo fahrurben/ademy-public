@@ -35,6 +35,10 @@ class TahunAjaranService extends BaseService
             'tipe' => 'required',
             'tahunAwal' => 'required',
             'tahunAkhir' => 'required',
+            'tanggalPendaftaranMulai' => 'required',
+            'tanggalPendaftaranAkhir' => 'required',
+            'tanggalAktif' => 'required',
+            'tanggalSelesai' => 'required',
             'status' => 'required',
         ];
 
@@ -51,6 +55,10 @@ class TahunAjaranService extends BaseService
             'tipe' => 'required',
             'tahunAwal' => 'required',
             'tahunAkhir' => 'required',
+            'tanggalPendaftaranMulai' => 'required',
+            'tanggalPendaftaranAkhir' => 'required',
+            'tanggalAktif' => 'required',
+            'tanggalSelesai' => 'required',
             'status' => 'required',
         ];
 
@@ -86,6 +94,10 @@ class TahunAjaranService extends BaseService
         $taEntity->setTipe($taObject->tipe);
         $taEntity->setTahunAwal($taObject->tahunAwal);
         $taEntity->setTahunAkhir($taObject->tahunAkhir);
+        $taEntity->setTanggalPendaftaranMulai($taObject->tanggalPendaftaranMulai);
+        $taEntity->setTanggalPendaftaranAkhir($taObject->tanggalPendaftaranAkhir);
+        $taEntity->setTanggalAktif($taObject->tanggalAktif);
+        $taEntity->setTanggalSelesai($taObject->tanggalSelesai);
         $taEntity->setStatus($taObject->status);
 
         $this->entityManager->persist($taEntity);
@@ -98,6 +110,10 @@ class TahunAjaranService extends BaseService
         $taEntity->setTipe($taObject->tipe);
         $taEntity->setTahunAwal($taObject->tahunAwal);
         $taEntity->setTahunAkhir($taObject->tahunAkhir);
+        $taEntity->setTanggalPendaftaranMulai($taObject->tanggalPendaftaranMulai);
+        $taEntity->setTanggalPendaftaranAkhir($taObject->tanggalPendaftaranAkhir);
+        $taEntity->setTanggalAktif($taObject->tanggalAktif);
+        $taEntity->setTanggalSelesai($taObject->tanggalSelesai);
         $taEntity->setStatus($taObject->status);
 
         $this->entityManager->merge($taEntity);

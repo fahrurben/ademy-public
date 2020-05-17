@@ -6,6 +6,10 @@
             {{ Form::viewField('Tipe', $tahunAjaran->getTipeString()) }}
             {{ Form::viewField('Tahun Awal', $tahunAjaran->getTahunAwal()) }}
             {{ Form::viewField('Tahun Akhir', $tahunAjaran->getTahunAkhir()) }}
+            {{ Form::viewField('Tanggal Pendaftaran Mulai', $tahunAjaran->getTanggalPendaftaranMulai()->format(Constant::LOCAL_DATE_FORMAT)) }}
+            {{ Form::viewField('Tanggal Pendaftaran Akhir', $tahunAjaran->getTanggalPendaftaranAkhir()->format(Constant::LOCAL_DATE_FORMAT)) }}
+            {{ Form::viewField('Tanggal Aktif', $tahunAjaran->getTanggalAktif()->format(Constant::LOCAL_DATE_FORMAT)) }}
+            {{ Form::viewField('Tanggal Selesai', $tahunAjaran->getTanggalSelesai()->format(Constant::LOCAL_DATE_FORMAT)) }}
             {{ Form::viewField('Status', $tahunAjaran->getStatusString()) }}
         </div>
     </div>

@@ -55,7 +55,7 @@ class TahunAjaranController extends Controller
                     GridColumnHelper::generateViewColumn('tahun_akhir', 'Tahun Akhir'),
                     GridColumnHelper::generateViewColumn('status', 'Status')
                         ->setCallback(function ($val) {
-                            return Constant::STATUS_TYPE[$val] ?? '';
+                            return Constant::STATUS_TAHUN_AJARAN[$val] ?? '';
                         }),
                     (new FieldConfig())
                         ->setName('id')
@@ -91,6 +91,10 @@ class TahunAjaranController extends Controller
                 try {
                     $ta = new TahunAjaranDTO();
                     $ta->setAttributesFromRequestArray($request->all());
+                    $ta->setTanggalPendaftaranMulaiFromLocale($ta->tanggalPendaftaranMulai);
+                    $ta->setTanggalPendaftaranAkhirFromLocale($ta->tanggalPendaftaranAkhir);
+                    $ta->setTanggalAktifFromLocale($ta->tanggalAktif);
+                    $ta->setTanggalSelesaiFromLocale($ta->tanggalSelesai);
 
                     // Validasi duplicate tahun ajaran
                     if ($this->tahunAjaranService->isExist($ta)) {
@@ -130,6 +134,10 @@ class TahunAjaranController extends Controller
                 try {
                     $tahunAjaranObject = new TahunAjaranDTO();
                     $tahunAjaranObject->setAttributesFromRequestArray($request->all());
+                    $tahunAjaranObject->setTanggalPendaftaranMulaiFromLocale($tahunAjaranObject->tanggalPendaftaranMulai);
+                    $tahunAjaranObject->setTanggalPendaftaranAkhirFromLocale($tahunAjaranObject->tanggalPendaftaranAkhir);
+                    $tahunAjaranObject->setTanggalAktifFromLocale($tahunAjaranObject->tanggalAktif);
+                    $tahunAjaranObject->setTanggalSelesaiFromLocale($tahunAjaranObject->tanggalSelesai);
 
                     // Validasi duplicate tahun ajaran
                     if ($this->tahunAjaranService->isExist($tahunAjaranObject, $id)) {

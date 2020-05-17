@@ -35,6 +35,13 @@ class Constant
       3 => 'Selesai',
     ];
 
+    const STATUS_TAHUN_AJARAN = [
+        0 => 'Draf',
+        1 => 'Registrasi',
+        2 => 'Aktif',
+        3 => 'Selesai',
+    ];
+
     const STATUS_MAHASISWA = [
         0 => 'In Aktif',
         1 => 'Aktif',
