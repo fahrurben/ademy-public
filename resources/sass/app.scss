@@ -32,7 +32,8 @@
         color: #F9F7FF;
         justify-content: center;
         flex-wrap: wrap;
-        font-size: 14px;
+        word-wrap: break-word;
+        font-size: 12px;
 
         &.nav-link {
           padding: 0.5rem;
