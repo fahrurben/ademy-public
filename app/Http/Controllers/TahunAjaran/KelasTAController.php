@@ -61,6 +61,15 @@ class KelasTAController extends Controller
 
     public function index($id)
     {
+        if ($id == 0) {
+            $currentTA = $this->tahunAjaranService->findOneBy([], ['tahunAwal' => 'DESC', 'tipe' => 'ASC']);
+            if (isset($currentTA)) {
+                return redirect(route('kelasta', ['id' => $currentTA->getId()]));
+            } else {
+                throw new \Exception('Belum ada tahun ajaran, silahkan buat data tahun ajaran baru');
+            }
+        }
+
         $tahunAjaran = $this->tahunAjaranService->find($id);
         $tahunAjaranOptions = $this->tahunAjaranService->findBy([], ['tahunAwal' => 'DESC', 'tipe' => 'ASC']);
 

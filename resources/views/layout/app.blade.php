@@ -54,6 +54,15 @@
                     <li><a href="{{ route('dosen') }}">@lang('Dosen')</a></li>
                 </ul>
             </li>
+            <li class="dd-main">
+                <a href="#" class="dd-toggle nav-link">
+                    <i class="fas fa-book-open"></i>
+                    <span>@lang('Tahun Ajaran')</span>
+                </a>
+                <ul class="dd-list dropdown-menu">
+                    <li><a href="{{ route('kelasta', ['id' => 0]) }}">@lang('Kelas Tahun Ajaran')</a></li>
+                </ul>
+            </li>
             <li class="nav-item">
                 <a href="{{ route('mahasiswa') }}" class="nav-link active" href="#">
                     <i class="fas fa-user-graduate"></i>
