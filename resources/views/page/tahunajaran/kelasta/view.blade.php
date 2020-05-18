@@ -12,7 +12,7 @@
             {{ Form::viewField('Program Studi', $kelas->getProdi()->getNama()) }}
             {{ Form::viewField('Mata Kuliah', $kelas->getMataKuliah()->getNama()) }}
             {{ Form::viewField('Dosen', $kelas->getDosen()->getNamaLengkap()) }}
-            {{ Form::viewField('Asisten', $kelas->getAsisten()->getNamaLengkap()) }}
+            {{ Form::viewField('Asisten', ($kelas->getAsisten() !== null ? $kelas->getAsisten()->getNamaLengkap() : '')) }}
         </div>
     </div>
     <div class="row">
