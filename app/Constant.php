@@ -62,7 +62,10 @@ class Constant
     const SEMESTER_MAX = 20;
 
     const MATAKULIAH_TYPE = [
-        0 => 'Wajib',
-        1 => 'Pilihan',
+        1 => 'Wajib',
+        2 => 'Pilihan',
     ];
+
+    const MATAKULIAH_WAJIB = 1;
+    const MATAKULIAH_PILIHAN = 2;
 }
