@@ -21,6 +21,9 @@ class Constant
       2 => 'Genap',
     ];
 
+    const TA_GANJIL = 1;
+    CONST TA_GENAP = 2;
+
     const TAHUN_START = 2010;
     const TAHUN_END = 2030;
 
