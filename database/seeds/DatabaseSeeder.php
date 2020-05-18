@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         DB::statement("TRUNCATE TABLE dosen");
         DB::statement("TRUNCATE TABLE tahun_ajaran");
         DB::statement("TRUNCATE TABLE kelas_ta");
+        DB::statement("TRUNCATE TABLE mahasiswa");
 
         $this->call(FakultasSeeder::class);
         $this->call(ProdiSeeder::class);
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DosenSeeder::class);
         $this->call(TahunAjaranSeeder::class);
         $this->call(KelasTASeeder::class);
+        $this->call(MahasiswaSeeder::class);
 
         DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
     }
